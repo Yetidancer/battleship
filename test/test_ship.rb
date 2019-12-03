@@ -29,8 +29,6 @@ class ShipTest < Minitest::Test
 
     assert_equal 2, @cruiser.health
 
-    # require "pry"; binding.pry
-
     @cruiser.hit
 
     assert_equal 1, @cruiser.health
@@ -38,12 +36,15 @@ class ShipTest < Minitest::Test
     @cruiser.hit
 
     assert_equal 0, @cruiser.health
+
+    assert_equal "Sunk!", @cruiser.hit
+
   end
 
   def test_fully_sunk?
     3.times do
       @cruiser.hit
-    end 
+    end
     assert @cruiser.sunk?
   end
 end
