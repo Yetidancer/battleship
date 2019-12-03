@@ -6,4 +6,9 @@ class Cell
     @coordinate = coordinate
     @ship = ()
   end
+
+  def empty?
+    return true if @ship == nil
+    false
+  end
 end

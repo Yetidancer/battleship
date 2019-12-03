@@ -24,4 +24,9 @@ class CellTest < Minitest::Test
     assert_equal nil, @cell.ship
   end
 
+  def test_cell_empty?
+
+    assert @cell.empty?
+  end
+
 end
