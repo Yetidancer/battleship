@@ -21,12 +21,26 @@ class CellTest < Minitest::Test
 
   def test_cell_ship
 
-    assert_equal nil, @cell.ship
+    assert_nil @cell.ship
   end
 
   def test_cell_empty?
 
     assert @cell.empty?
+  end
+
+  def test_place_ship
+    cruiser = Ship.new("Cruiser", 3)
+    @cell.place_ship(cruiser)
+
+    assert_equal cruiser, @cell.ship
+  end
+
+  def test_cell_not_empty
+    cruiser = Ship.new("Cruiser", 3)
+    @cell.place_ship(cruiser)
+
+    refute @cell.empty?
   end
 
 end
