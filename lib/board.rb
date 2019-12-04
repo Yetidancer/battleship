@@ -1,3 +1,4 @@
+require "./lib/cell"
 class Board
 
   attr_reader :cells
@@ -23,9 +24,22 @@ class Board
     # require "pry"; binding.pry
   end
 
+  def place(ship, coordinates)
+    coordinates.each do |coordinate|
+      @cells[coordinate].place_ship(ship)
+    end
+  end
+
   def valid_coordinate?(coordinate)
     return true if @cells[coordinate]
     false
+  end
+
+  def valid_placement_overlap?(ship, coordinates)
+    return false if coordinates.find do |coordinate|
+      @cells[coordinate].ship != nil
+    end
+    true
   end
 
   def valid_placement_length?(ship, array)
@@ -98,6 +112,7 @@ class Board
       false
     end
   end
+end
 
 
 
