@@ -38,12 +38,18 @@ class Board
     cell_2 = array[1].split''
     number_1 = cell_1[1].to_i
     number_2 = cell_2[1].to_i
-# require "pry"; binding.pry
-    if number_2 - number_1 == 1 && cell_1[0] == cell_2[0]
+    letter_1 = cell_1[0].ord
+    letter_2 = cell_2[0].ord
+    # require "pry"; binding.pry
+    if (number_2 - number_1 == 1 && letter_1 == letter_2) ||
+      (letter_2 - letter_1 == 1 && number_1 == number_2)
       true
     else
       false
     end
     # require "pry"; binding.pry
   end
+
+  
+
 end

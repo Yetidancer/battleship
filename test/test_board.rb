@@ -54,7 +54,7 @@ class BoardTest < Minitest::Test
 # #come up with the 24 associations, ie A1 and A2, B3 and C3, D3 and D4
 #   # require "pry"; binding.pry
   submarine = Ship.new("Submarine", 2)
-  assert @board.valid_placement_consecutive?(submarine, ["A1","A2"])
+  assert @board.valid_placement_consecutive?(submarine, ["A1","B1"])
 #   # require "pry"; binding.pry
   end
 end
