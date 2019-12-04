@@ -28,7 +28,22 @@ class Board
     false
   end
 
-  def valid_placement?(ship, array)
+  def valid_placement_length?(ship, array)
     return true if ship.length == array.length
+    # require "pry"; binding.pry
+  end
+
+  def valid_placement_consecutive?(ship, array)
+    cell_1 = array[0].split''
+    cell_2 = array[1].split''
+    number_1 = cell_1[1].to_i
+    number_2 = cell_2[1].to_i
+# require "pry"; binding.pry
+    if number_2 - number_1 == 1 && cell_1[0] == cell_2[0]
+      true
+    else
+      false
+    end
+    # require "pry"; binding.pry
   end
 end
