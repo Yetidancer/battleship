@@ -79,17 +79,31 @@ class CellTest < Minitest::Test
 
     yes = cell_1.fire_upon
     assert_equal "M", cell_1.render
+  end
 
+  def test_render_s_for_boolean
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
     cell_2.place_ship(cruiser)
-    require "pry"; binding.pry
 
+    assert_equal ".", cell_2.render
     assert_equal "S", cell_2.render(true)
-    #assert_equal ".", cell_2.render
+  end
 
+  def test_render_h_when_unsunk
+    cell_2 = Cell.new("C3")
+    cruiser = Ship.new("Cruiser", 3)
+    cell_2.place_ship(cruiser)
     cell_2.fire_upon
-    #assert_equal "H", cell_2.render
+
+    assert_equal "H", cell_2.render
+  end
+
+  def test_render_x_when_sunk
+    cell_2 = Cell.new("C3")
+    cruiser = Ship.new("Cruiser", 3)
+    cell_2.place_ship(cruiser)
+    cell_2.fire_upon
 
     cruiser.sunk?
     cruiser.hit
@@ -97,6 +111,5 @@ class CellTest < Minitest::Test
     cruiser.sunk?
 
     assert_equal "X", cell_2.render
-
   end
 end

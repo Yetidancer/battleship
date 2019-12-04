@@ -7,7 +7,7 @@ class Cell
   def initialize(coordinate)
     @coordinate = coordinate
     @ship = nil #could also use [].first
-    @got_fired = false
+    @fired_on = false
   end
 
   def empty?
@@ -20,25 +20,28 @@ class Cell
   end
 
   def fired_upon?
-    @got_fired
+    @fired_on
   end
 
   def fire_upon
     if @ship == nil
-      @got_fired = true
+      @fired_on = true
     else
     @ship.hit
-    @got_fired = true
+    @fired_on = true
     end
+  end
+
+  def sunk_ship?
+    return true if @ship.sunk? == true
+    false
   end
 
   def render(arg = false)
     return "S" if arg == true
-    return "." if fired_upon? == false && @ship == nil
-    return "M" if fired_upon? == true && @ship == nil
-    return "H" if fired_upon? == true && @ship == true
-    return "X" if fired_upon? == true && @ship.sunk? == true
-
-    
+    return "." if fired_upon? == false
+    return "M" if fired_upon? == true && empty? == true
+    return "H" if fired_upon? == true && sunk_ship? == false
+    return "X" if fired_upon? == true && sunk_ship? == true
   end
 end
