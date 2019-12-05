@@ -80,4 +80,24 @@ class BoardTest < Minitest::Test
     refute @board.valid_placement_overlap?(submarine, ["A1", "B1"])
   end
 
+  def test_renders
+    submarine = Ship.new("Submarine", 2)
+    cruiser = Ship.new("Cruiser", 3)
+    @board.place(submarine, ["A1","A2"])
+    @board.cells["A1"].fire_upon
+    @board.cells["A2"].fire_upon
+    @board.cells["B2"].fire_upon
+    @board.cells["C4"].fire_upon
+    @board.place(cruiser, ["B4","C4","D4"])
+    assert_equal "  1 2 3 4 \n" +
+"A X X . . \n" +
+"B . M . . \n" +
+"C . . . H \n" +
+"D . . . . \n", @board.renders
+    assert_equal "  1 2 3 4 \n" +
+"A X X . . \n" +
+"B . M . S \n" +
+"C . . . H \n" +
+"D . . . S \n", @board.renders(true)
+  end
 end

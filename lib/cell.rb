@@ -38,7 +38,7 @@ class Cell
   end
 
   def render(arg = false)
-    return "S" if arg == true
+    return "S" if arg == true && ship != nil && fired_upon? == false
     return "." if fired_upon? == false
     return "M" if fired_upon? == true && empty? == true
     return "H" if fired_upon? == true && sunk_ship? == false
