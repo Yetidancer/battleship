@@ -12,21 +12,57 @@ class Game
     puts "Welcome to BATTLESHIP"
     puts "Enter p to play. Enter q to quit."
     user_choice = gets.chomp
-    return "You chose quit. Have a nice day!" if user_choice == "q"
-    return "You chose to start. Welcome!" if user_choice == "p"
+    if user_choice == "q"
+      puts "You chose quit. Have a nice day!"
+    elsif user_choice == "p"
+      puts "You chose to start. Welcome!"
+      puts "-" * 30
+    end
 
-    comp_random_placement
+    #computer generate random ship coordinates and assign them to cells
 
-    return "I have laid out my ships on the grid.
+    puts "CPU:
+  I have laid out my ships on the grid.
   You now need to lay out your two ships.
   The Cruiser is three units long and the Submarine is two units long.
+
     1 2 3 4
   A . . . .
   B . . . .
   C . . . .
-  D . . . .
-  Enter the squares for the Cruiser (3 spaces):"
-  cruiser_squares = gets.chomp
+  D . . . ."
+
+
+  end
+
+  def user_input_cruiser_cells
+    board = Board.new
+    puts "Enter the cells in which you would like to place your cruiser one at a time:"
+
+    user_cruiser_cell_1 = gets.chomp
+# require "pry"; binding.pry
+    while board.valid_coordinate?(user_cruiser_cell_1) == false
+      puts "This is not a valid coordinate. Please input a coordinate with a row letter between A and B and a column number between 1 and 4:"
+      user_cruiser_cell_1 = gets.chomp
+    end
+    # require "pry"; binding.pry
+    user_cruiser_cell_2 = gets.chomp
+    while board.valid_coordinate?(user_cruiser_cell_2) == false
+      puts "This is not a valid coordinate. Please input a coordinate with a row letter between A and B and a column number between 1 and 4:"
+      user_cruiser_cell_2 = gets.chomp
+    end
+
+    user_cruiser_cell_3 = gets.chomp
+    while board.valid_coordinate?(user_cruiser_cell_3) == false
+      puts "This is not a valid coordinate. Please input a coordinate with a row letter between A and B and a column number between 1 and 4:"
+      user_cruiser_cell_3 = gets.chomp
+    end
+    user_cruiser_cells = []
+    user_cruiser_cells << user_cruiser_cell_1
+    user_cruiser_cells << user_cruiser_cell_2
+    user_cruiser_cells << user_cruiser_cell_3
+require "pry"; binding.pry
+  cruiser = Ship.new("Cruiser", 3)
   end
 
   def comp_coordinates

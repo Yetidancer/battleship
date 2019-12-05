@@ -1,7 +1,10 @@
 require './lib/game'
 
 game = Game.new
+board = Board.new 
 
-# game.start_game
+game.start_game
 
-game.comp_coordinates
+game.user_input_cruiser_cells
+
+# game.comp_coordinates
