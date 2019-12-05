@@ -89,6 +89,7 @@ class BoardTest < Minitest::Test
     @board.cells["B2"].fire_upon
     @board.cells["C4"].fire_upon
     @board.place(cruiser, ["B4","C4","D4"])
+    require "pry"; binding.pry
     assert_equal "  1 2 3 4 \n" +
 "A X X . . \n" +
 "B . M . . \n" +
