@@ -38,6 +38,13 @@ class Game
   def user_input_cruiser_cells
     board = Board.new
     puts "Enter the cells in which you would like to place your cruiser one at a time:"
+    cruiser = Ship.new("Cruiser", 3)
+    user_cruiser_cell_1 = "C5"
+    user_cruiser_cell_2 = "E9"
+    user_cruiser_cell_3 = "Z3"
+    user_cruiser_cells = [user_cruiser_cell_1, user_cruiser_cell_2, user_cruiser_cell_3]
+
+    while board.valid_placement_consecutive?(cruiser, user_cruiser_cells) == false
 
     user_cruiser_cell_1 = gets.chomp
 # require "pry"; binding.pry
@@ -57,12 +64,13 @@ class Game
       puts "This is not a valid coordinate. Please input a coordinate with a row letter between A and B and a column number between 1 and 4:"
       user_cruiser_cell_3 = gets.chomp
     end
-    user_cruiser_cells = []
     user_cruiser_cells << user_cruiser_cell_1
     user_cruiser_cells << user_cruiser_cell_2
     user_cruiser_cells << user_cruiser_cell_3
-require "pry"; binding.pry
-  cruiser = Ship.new("Cruiser", 3)
+    board.valid_placement_length?(cruiser, user_cruiser_cells)
+    board.valid_placement_consecutive?(cruiser, user_cruiser_cells)
+    end
+    require "pry"; binding.pry
   end
 
   def comp_coordinates
