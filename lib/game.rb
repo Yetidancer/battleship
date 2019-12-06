@@ -7,6 +7,8 @@ class Game
   def initialize
   end
 
+  board = Board.new
+
   def start_game
 
     puts "Welcome to BATTLESHIP"
@@ -19,8 +21,9 @@ class Game
       puts "-" * 30
     end
 
+    comp_place_coordinates
     #computer generate random ship coordinates and assign them to cells
-
+#
     puts "CPU:
   I have laid out my ships on the grid.
   You now need to lay out your two ships.
@@ -32,11 +35,10 @@ class Game
   C . . . .
   D . . . ."
 
-
+  #require "pry"; binding.pry
   end
 
   def user_input_cruiser_cells
-    board = Board.new
 
     cruiser = Ship.new("Cruiser", 3)
     user_cruiser_cell_1 = "C5"
@@ -44,23 +46,23 @@ class Game
     user_cruiser_cell_3 = "Z3"
     user_cruiser_cells = [user_cruiser_cell_1, user_cruiser_cell_2, user_cruiser_cell_3]
 # require "pry"; binding.pry
-    while board.valid_placement_consecutive?(cruiser, user_cruiser_cells) == false
+    while @board.valid_placement_consecutive?(cruiser, user_cruiser_cells) == false
       puts "Enter the cells in which you would like to place your cruiser one at a time:"
     user_cruiser_cell_1 = gets.chomp
 # require "pry"; binding.pry
-      while board.valid_coordinate?(user_cruiser_cell_1) == false
+      while @board.valid_coordinate?(user_cruiser_cell_1) == false
         puts "This is not a valid coordinate. Please input a coordinate with a row letter between A and B and a column number between 1 and 4:"
         user_cruiser_cell_1 = gets.chomp
       end
       # require "pry"; binding.pry
       user_cruiser_cell_2 = gets.chomp
-      while board.valid_coordinate?(user_cruiser_cell_2) == false
+      while @board.valid_coordinate?(user_cruiser_cell_2) == false
         puts "This is not a valid coordinate. Please input a coordinate with a row letter between A and B and a column number between 1 and 4:"
         user_cruiser_cell_2 = gets.chomp
       end
 
       user_cruiser_cell_3 = gets.chomp
-      while board.valid_coordinate?(user_cruiser_cell_3) == false
+      while @board.valid_coordinate?(user_cruiser_cell_3) == false
         puts "This is not a valid coordinate. Please input a coordinate with a row letter between A and B and a column number between 1 and 4:"
         user_cruiser_cell_3 = gets.chomp
       end
@@ -69,24 +71,34 @@ class Game
     end
   end
 
+  def comp_place_coordinates
+    set_placement = comp_coordinates
+    @board = Board.new
+    if set_placement.length == 3
+      cruiser = Ship.new("Cruiser", 3)
+      a = @board.place(cruiser, set_placement)
+    elsif set_placement.length == 2
+      submarine = Ship.new("Submarine", 2)
+      a = @board.place(submarine, set_placement)
+    end
+    # require "pry"; binding.pry
+  end
+
   def comp_coordinates
-    require "pry"; binding.pry
-
+    # require "pry"; binding.pry
     place_1 = comp_ship_type
-    needed = 0
+    comp_coordinates = []
     if place_1 == "Cruiser"
-      needed += 3
+      comp_coordinates << hor_random_3
+      comp_coordinates << vert_random_3
+      # require "pry"; binding.pry
     elsif place_1 == "Submarine"
-      needed += 2
+      comp_coordinates << vert_random_2
+      comp_coordinates << hor_random_2
+      # require "pry"; binding.pry
     end
-    require "pry"; binding.pry
-
-    if needed == 3
-      return [hor_random_3, vert_random_3].shuffle.first
-    elsif needed == 2
-      return [vert_random_2, hor_random_2].shuffle.first
-    end
-    require "pry"; binding.pry
+    comp_coordinates.shuffle.first
+    # require "pry"; binding.pry
   end
 
   def comp_ship_type
@@ -175,6 +187,5 @@ class Game
 
     return coordinates
   end
-
 
 end
