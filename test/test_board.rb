@@ -55,6 +55,9 @@ class BoardTest < Minitest::Test
 #   # require "pry"; binding.pry
   submarine = Ship.new("Submarine", 2)
   assert @board.valid_placement_consecutive?(submarine, ["A1","B1"])
+  cruiser = Ship.new("Cruiser", 3)
+  assert @board.valid_placement_consecutive?(cruiser, ["A1","A2","A3"])
+
 #   # require "pry"; binding.pry
   end
 
@@ -89,7 +92,7 @@ class BoardTest < Minitest::Test
     @board.cells["B2"].fire_upon
     @board.cells["C4"].fire_upon
     @board.place(cruiser, ["B4","C4","D4"])
-    require "pry"; binding.pry
+    # require "pry"; binding.pry
     assert_equal "  1 2 3 4 \n" +
 "A X X . . \n" +
 "B . M . . \n" +
