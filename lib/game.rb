@@ -1,14 +1,26 @@
 require './lib/ship'
 require './lib/cell'
 require './lib/board'
+require './lib/turn'
+
 
 class Game
-  attr_reader :user_board, :comp_board
+
+  attr_reader :user_board, :comp_board, :previous_shots
 
   def initialize
     @comp_board = Board.new
     @user_board = Board.new
+    @previous_shots = []
     # require "pry"; binding.pry
+  end
+
+  def record_shot(turn)
+    @previous_shots << turn.shot
+  end
+
+  def already_shot?(coordinate)
+    return true if @previous_shots.include?(coordinate)
   end
 
   def start_game
