@@ -7,7 +7,8 @@ class Game
   def initialize
   end
 
-  board = Board.new
+  @comp_board = Board.new
+  @user_board = Board.new #returning nil, why?
 
   def start_game
 
@@ -35,51 +36,50 @@ class Game
   C . . . .
   D . . . ."
 
-  #require "pry"; binding.pry
+  require "pry"; binding.pry
   end
 
   def user_input_cruiser_cells
-
     cruiser = Ship.new("Cruiser", 3)
     user_cruiser_cell_1 = "C5"
     user_cruiser_cell_2 = "E9"
     user_cruiser_cell_3 = "Z3"
     user_cruiser_cells = [user_cruiser_cell_1, user_cruiser_cell_2, user_cruiser_cell_3]
 # require "pry"; binding.pry
-    while @board.valid_placement_consecutive?(cruiser, user_cruiser_cells) == false
+    while @user_board.valid_placement_consecutive?(cruiser, user_cruiser_cells) == false
       puts "Enter the cells in which you would like to place your cruiser one at a time:"
     user_cruiser_cell_1 = gets.chomp
 # require "pry"; binding.pry
-      while @board.valid_coordinate?(user_cruiser_cell_1) == false
+      while @user_board.valid_coordinate?(user_cruiser_cell_1) == false
         puts "This is not a valid coordinate. Please input a coordinate with a row letter between A and B and a column number between 1 and 4:"
         user_cruiser_cell_1 = gets.chomp
       end
       # require "pry"; binding.pry
       user_cruiser_cell_2 = gets.chomp
-      while @board.valid_coordinate?(user_cruiser_cell_2) == false
+      while @user_board.valid_coordinate?(user_cruiser_cell_2) == false
         puts "This is not a valid coordinate. Please input a coordinate with a row letter between A and B and a column number between 1 and 4:"
         user_cruiser_cell_2 = gets.chomp
       end
 
       user_cruiser_cell_3 = gets.chomp
-      while @board.valid_coordinate?(user_cruiser_cell_3) == false
+      while @user_board.valid_coordinate?(user_cruiser_cell_3) == false
         puts "This is not a valid coordinate. Please input a coordinate with a row letter between A and B and a column number between 1 and 4:"
         user_cruiser_cell_3 = gets.chomp
       end
       user_cruiser_cells = [user_cruiser_cell_1, user_cruiser_cell_2, user_cruiser_cell_3]
-    # require "pry"; binding.pry
+    require "pry"; binding.pry
     end
   end
 
   def comp_place_coordinates
     set_placement = comp_coordinates
-    @board = Board.new
+    @comp_board = Board.new
     if set_placement.length == 3
       cruiser = Ship.new("Cruiser", 3)
-      a = @board.place(cruiser, set_placement)
+      a = @comp_board.place(cruiser, set_placement)
     elsif set_placement.length == 2
       submarine = Ship.new("Submarine", 2)
-      a = @board.place(submarine, set_placement)
+      a = @comp_board.place(submarine, set_placement)
     end
     # require "pry"; binding.pry
   end
