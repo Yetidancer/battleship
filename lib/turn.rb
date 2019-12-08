@@ -1,3 +1,4 @@
+require './lib/cell'
 class Turn
 
   attr_reader :shot, :board

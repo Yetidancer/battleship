@@ -1,14 +1,30 @@
 require './lib/game'
+require './lib/play'
 
-game = Game.new
+play = Play.new
 
-game.start_game
+play.game.start_game
 
-game.user_input_cruiser_cells
-game.user_input_submarine_cells
-puts game.comp_board.renders("the CPU")
-puts game.user_board.renders("your", true)
-turn_1 = Turn.new("A1", game.user_board)
-turn_1.take_shot
-game.record_shot(turn_1)
+play.game.user_input_cruiser_cells
+play.game.user_input_submarine_cells
+play.user_game_status?
+play.cpu_game_status?
 require "pry"; binding.pry
+while play.user_game_status.include?("S") && play.cpu_game_status.include?("S")
+  puts play.game.comp_board.renders("the CPU")
+  puts play.game.user_board.renders("your", true)
+  play.game.take_turn
+  play.user_game_status?
+  play.cpu_game_status?
+end
+
+puts play.game.comp_board.renders("the CPU")
+puts play.game.user_board.renders("your", true)
+
+if play.cpu_game_status.include?("S")
+  puts "GAME OVER! YOU LOSE!"
+end
+
+if play.user_game_status.include?("S")
+  puts "GAME OVER! YOU WIN!"
+end
