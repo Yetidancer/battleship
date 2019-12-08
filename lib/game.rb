@@ -9,7 +9,6 @@ class Game
     @comp_board = Board.new
     @user_board = Board.new
     # require "pry"; binding.pry
-
   end
 
   def start_game
@@ -23,11 +22,10 @@ class Game
       puts "You chose to start. Welcome!"
       puts "-" * 30
     end
-    require "pry"; binding.pry
+    # require "pry"; binding.pry
     comp_place_coordinates
     #computer generate random ship coordinates and assign them to cells
-    require "pry"; binding.pry
-#
+    # require "pry"; binding.pry
     puts "CPU:
   I have laid out my ships on the grid.
   You now need to lay out your two ships.
@@ -70,42 +68,41 @@ class Game
         user_cruiser_cell_3 = gets.chomp
       end
       user_cruiser_cells = [user_cruiser_cell_1, user_cruiser_cell_2, user_cruiser_cell_3]
-    require "pry"; binding.pry
+    #require "pry"; binding.pry
     end
+    @user_board.place(cruiser, user_cruiser_cells)
+    require "pry"; binding.pry
   end
 
   def comp_place_coordinates
-    set_placement = comp_coordinates
-    if set_placement.length == 3
-      cruiser = Ship.new("Cruiser", 3)
-      a = @comp_board.place(cruiser, set_placement)
-    elsif set_placement.length == 2
-      submarine = Ship.new("Submarine", 2)
-      a = @comp_board.place(submarine, set_placement)
+    cruiser_placement = comp_coordinates_cruiser
+    cruiser = Ship.new("Cruiser", 3)
+    @comp_board.place(cruiser, cruiser_placement)
+    submarine_placement = comp_coordinates_submarine
+    submarine = Ship.new("Submarine", 2)
+    # require "pry"; binding.pry
+
+    while @comp_board.valid_placement_no_overlap?(submarine, submarine_placement) == false
+      # require "pry"; binding.pry
+      submarine_placement = comp_coordinates_submarine
     end
+    @comp_board.place(submarine, submarine_placement)
     # require "pry"; binding.pry
   end
 
-  def comp_coordinates
-    # require "pry"; binding.pry
-    place_1 = comp_ship_type
-    comp_coordinates = []
-    if place_1 == "Cruiser"
-      comp_coordinates << hor_random_3
-      comp_coordinates << vert_random_3
-      # require "pry"; binding.pry
-    elsif place_1 == "Submarine"
-      comp_coordinates << vert_random_2
-      comp_coordinates << hor_random_2
-      # require "pry"; binding.pry
-    end
-    comp_coordinates.shuffle.first
+  def comp_coordinates_cruiser
+    comp_coordinates_cruiser = []
+    comp_coordinates_cruiser << hor_random_3
+    comp_coordinates_cruiser << vert_random_3
+    comp_coordinates_cruiser.shuffle.first
     # require "pry"; binding.pry
   end
 
-  def comp_ship_type
-    ship_types = ["Cruiser", "Submarine"]
-    ship_types.sample
+  def comp_coordinates_submarine
+    comp_coordinates_submarine = []
+    comp_coordinates_submarine << vert_random_2
+    comp_coordinates_submarine << hor_random_2
+    comp_coordinates_submarine.shuffle.first
   end
 
   def vert_random_3

@@ -35,7 +35,7 @@ class Board
     false
   end
 
-  def valid_placement_overlap?(ship, coordinates)
+  def valid_placement_no_overlap?(ship, coordinates)
     return false if coordinates.find do |coordinate|
       @cells[coordinate].ship != nil
     end
