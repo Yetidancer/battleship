@@ -3,12 +3,14 @@ require './lib/cell'
 require './lib/board'
 
 class Game
+  attr_reader :user_board, :comp_board
 
   def initialize
-  end
+    @comp_board = Board.new
+    @user_board = Board.new
+    # require "pry"; binding.pry
 
-  @comp_board = Board.new
-  @user_board = Board.new #returning nil, why?
+  end
 
   def start_game
 
@@ -21,9 +23,10 @@ class Game
       puts "You chose to start. Welcome!"
       puts "-" * 30
     end
-
+    require "pry"; binding.pry
     comp_place_coordinates
     #computer generate random ship coordinates and assign them to cells
+    require "pry"; binding.pry
 #
     puts "CPU:
   I have laid out my ships on the grid.
@@ -36,7 +39,7 @@ class Game
   C . . . .
   D . . . ."
 
-  require "pry"; binding.pry
+  #require "pry"; binding.pry
   end
 
   def user_input_cruiser_cells
@@ -73,7 +76,6 @@ class Game
 
   def comp_place_coordinates
     set_placement = comp_coordinates
-    @comp_board = Board.new
     if set_placement.length == 3
       cruiser = Ship.new("Cruiser", 3)
       a = @comp_board.place(cruiser, set_placement)
