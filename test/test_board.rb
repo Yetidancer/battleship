@@ -80,7 +80,7 @@ class BoardTest < Minitest::Test
     @board.place(cruiser, ["A1", "A2", "A3"])
     submarine = Ship.new("Submarine", 2)
 
-    refute @board.valid_placement_overlap?(submarine, ["A1", "B1"])
+    refute @board.valid_placement_no_overlap?(submarine, ["A1", "B1"])
   end
 
   def test_renders
