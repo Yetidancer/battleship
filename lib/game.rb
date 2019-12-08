@@ -49,29 +49,104 @@ class Game
 # require "pry"; binding.pry
     while @user_board.valid_placement_consecutive?(cruiser, user_cruiser_cells) == false
       puts "Enter the cells in which you would like to place your cruiser one at a time:"
+      puts "First coordinate:"
     user_cruiser_cell_1 = gets.chomp
 # require "pry"; binding.pry
       while @user_board.valid_coordinate?(user_cruiser_cell_1) == false
-        puts "This is not a valid coordinate. Please input a coordinate with a row letter between A and B and a column number between 1 and 4:"
+        puts "This is not a valid coordinate for your cruiser. Please input your first coordinate with a row letter between A and D and a column number between 1 and 4:"
         user_cruiser_cell_1 = gets.chomp
       end
       # require "pry"; binding.pry
+      puts "Second coordinate:"
       user_cruiser_cell_2 = gets.chomp
       while @user_board.valid_coordinate?(user_cruiser_cell_2) == false
-        puts "This is not a valid coordinate. Please input a coordinate with a row letter between A and B and a column number between 1 and 4:"
+        puts "This is not a valid coordinate for your cruiser. Please input your second coordinate with a row letter between A and D and a column number between 1 and 4:"
         user_cruiser_cell_2 = gets.chomp
       end
 
+      puts "Third coordinate:"
       user_cruiser_cell_3 = gets.chomp
       while @user_board.valid_coordinate?(user_cruiser_cell_3) == false
-        puts "This is not a valid coordinate. Please input a coordinate with a row letter between A and B and a column number between 1 and 4:"
+        puts "This is not a valid coordinate for your cruiser. Please input your third coordinate with a row letter between A and D and a column number between 1 and 4:"
         user_cruiser_cell_3 = gets.chomp
       end
-      user_cruiser_cells = [user_cruiser_cell_1, user_cruiser_cell_2, user_cruiser_cell_3]
+
+        user_cruiser_cells = [user_cruiser_cell_1, user_cruiser_cell_2, user_cruiser_cell_3]
+
+      if @user_board.valid_placement_consecutive?(cruiser, user_cruiser_cells) == false
+        puts "Your coordinates were not consecutive. Please try again."
+      end
+
     #require "pry"; binding.pry
     end
     @user_board.place(cruiser, user_cruiser_cells)
-    require "pry"; binding.pry
+    # require "pry"; binding.pry
+  end
+
+  def user_input_submarine_cells
+    submarine = Ship.new("Submarine", 2)
+    user_submarine_cell_1 = "C5"
+    user_submarine_cell_2 = "E9"
+    user_submarine_cells = [user_submarine_cell_1, user_submarine_cell_2]
+# require "pry"; binding.pry
+    while @user_board.valid_placement_consecutive?(submarine, user_submarine_cells) == false
+      puts "Enter the cells in which you would like to place your sub one at a time:"
+      puts "First coordinate:"
+    user_submarine_cell_1 = gets.chomp
+# require "pry"; binding.pry
+      while @user_board.valid_coordinate?(user_submarine_cell_1) == false
+        puts "This is not a valid coordinate for your submarine. Please input your first coordinate with a row letter between A and D and a column number between 1 and 4:"
+        user_submarine_cell_1 = gets.chomp
+      end
+      # require "pry"; binding.pry
+      puts "Second coordinate:"
+      user_submarine_cell_2 = gets.chomp
+      while @user_board.valid_coordinate?(user_submarine_cell_2) == false
+        puts "This is not a valid coordinate for your submarine. Please input your second coordinate with a row letter between A and D and a column number between 1 and 4:"
+        user_submarine_cell_2 = gets.chomp
+      end
+      # require "pry"; binding.pry
+      user_submarine_cells = [user_submarine_cell_1, user_submarine_cell_2]
+      # require "pry"; binding.pry
+      if @user_board.valid_placement_consecutive?(submarine, user_submarine_cells) == false
+        puts "Your coordinates were not consecutive. Please try again."
+      end
+
+    #require "pry"; binding.pry
+    end
+
+    while @user_board.valid_placement_no_overlap?(submarine, user_submarine_cells) == false
+      submarine = Ship.new("Submarine", 2)
+      user_submarine_cell_1 = "C5"
+      user_submarine_cell_2 = "E9"
+      user_submarine_cells = [user_submarine_cell_1, user_submarine_cell_2]
+      puts "You have overlapping ships. Try again!"
+      while @user_board.valid_placement_consecutive?(submarine, user_submarine_cells) == false
+        puts "Enter the cells in which you would like to place your sub one at a time:"
+        puts "First coordinate:"
+      user_submarine_cell_1 = gets.chomp
+  # require "pry"; binding.pry
+        while @user_board.valid_coordinate?(user_submarine_cell_1) == false
+          puts "This is not a valid coordinate for your submarine. Please input your first coordinate with a row letter between A and D and a column number between 1 and 4:"
+          user_submarine_cell_1 = gets.chomp
+        end
+        # require "pry"; binding.pry
+        puts "Second coordinate:"
+        user_submarine_cell_2 = gets.chomp
+        while @user_board.valid_coordinate?(user_submarine_cell_2) == false
+          puts "This is not a valid coordinate for your submarine. Please input your second coordinate with a row letter between A and D and a column number between 1 and 4:"
+          user_submarine_cell_2 = gets.chomp
+        end
+
+        user_submarine_cells = [user_submarine_cell_1, user_submarine_cell_2]
+      #require "pry"; binding.pry
+        if @user_board.valid_placement_consecutive?(submarine, user_submarine_cells) == false
+          puts "Your coordinates were not consecutive. Please try again."
+        end
+      end
+    end
+    @user_board.place(submarine, user_submarine_cells)
+    # require "pry"; binding.pry
   end
 
   def comp_place_coordinates
