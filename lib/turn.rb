@@ -5,7 +5,6 @@ class Turn
   def initialize(shot, board)
     @shot = shot
     @board = board
-
   end
 
   def take_shot
