@@ -11,29 +11,48 @@ class Game
   def initialize
     @comp_board = Board.new
     @user_board = Board.new
-    @previous_shots = []
-    @user_cruiser = ''
-    @user_sub = ''
+    @user_previous_shots = []
+    @cpu_previous_shots =[]
+
     # require "pry"; binding.pry
   end
 
-  def already_shot?(coordinate)
-    return true if @previous_shots.include?(coordinate)
-  end
-
-  def take_turn
+  def user_take_turn
     puts "Choose a coordinate upon which to fire."
     fire = gets.chomp
 
+    unless @comp_board.cells.include?(fire)
+      puts "Please input a valid coordinate."
+      fire = gets.chomp
+    end
+
     turn = Turn.new(fire, @comp_board)
 
-    while @previous_shots.include?(fire)
+    while @user_previous_shots.include?(fire)
       puts "That cell has already been shot. Please choose another."
       fire = gets.chomp
       turn = Turn.new(fire, @comp_board)
     end
   turn.take_shot
-  @previous_shots << turn.shot
+  @user_previous_shots << turn.shot
+  end
+
+  def cpu_take_turn
+    fire = @user_board.cells.keys.shuffle.first
+
+    unless @user_board.cells.include?(fire)
+      puts "Please input a valid coordinate."
+      fire = @user_board.cells.keys.shuffle.first
+    end
+
+    turn = Turn.new(fire, @user_board)
+
+    while @cpu_previous_shots.include?(fire)
+      fire = @comp_board.cells.keys.shuffle.first
+      turn = Turn.new(fire, @comp_board)
+    end
+  turn.take_shot
+  @cpu_previous_shots << turn.shot
   end
 
   def start_game
@@ -66,13 +85,13 @@ class Game
   end
 
   def user_input_cruiser_cells
-    @user_cruiser = Ship.new("Cruiser", 3)
+    cruiser = Ship.new("Cruiser", 3)
     user_cruiser_cell_1 = "C5"
     user_cruiser_cell_2 = "E9"
     user_cruiser_cell_3 = "Z3"
     user_cruiser_cells = [user_cruiser_cell_1, user_cruiser_cell_2, user_cruiser_cell_3]
 # require "pry"; binding.pry
-    while @user_board.valid_placement_consecutive?(@user_cruiser, user_cruiser_cells) == false
+    while @user_board.valid_placement_consecutive?(cruiser, user_cruiser_cells) == false
       puts "Enter the cells in which you would like to place your cruiser one at a time:"
       puts "First coordinate:"
     user_cruiser_cell_1 = gets.chomp
@@ -98,23 +117,23 @@ class Game
 
         user_cruiser_cells = [user_cruiser_cell_1, user_cruiser_cell_2, user_cruiser_cell_3]
 
-      if @user_board.valid_placement_consecutive?(@user_cruiser, user_cruiser_cells) == false
+      if @user_board.valid_placement_consecutive?(cruiser, user_cruiser_cells) == false
         puts "Your coordinates were not consecutive. Please try again."
       end
 
     #require "pry"; binding.pry
     end
-    @user_board.place(@user_cruiser, user_cruiser_cells)
+    @user_board.place(cruiser, user_cruiser_cells)
     # require "pry"; binding.pry
   end
 
   def user_input_submarine_cells
-    @user_sub = Ship.new("Submarine", 2)
+    submarine = Ship.new("Submarine", 2)
     user_submarine_cell_1 = "C5"
     user_submarine_cell_2 = "E9"
     user_submarine_cells = [user_submarine_cell_1, user_submarine_cell_2]
 # require "pry"; binding.pry
-    while @user_board.valid_placement_consecutive?(@user_sub, user_submarine_cells) == false
+    while @user_board.valid_placement_consecutive?(submarine, user_submarine_cells) == false
       puts "Enter the cells in which you would like to place your sub one at a time:"
       puts "First coordinate:"
     user_submarine_cell_1 = gets.chomp
@@ -133,20 +152,20 @@ class Game
       # require "pry"; binding.pry
       user_submarine_cells = [user_submarine_cell_1, user_submarine_cell_2]
       # require "pry"; binding.pry
-      if @user_board.valid_placement_consecutive?(@user_sub, user_submarine_cells) == false
+      if @user_board.valid_placement_consecutive?(submarine, user_submarine_cells) == false
         puts "Your coordinates were not consecutive. Please try again."
       end
 
     #require "pry"; binding.pry
     end
 
-    while @user_board.valid_placement_no_overlap?(@user_sub, user_submarine_cells) == false
-      @user_sub = Ship.new("Submarine", 2)
+    while @user_board.valid_placement_no_overlap?(submarine, user_submarine_cells) == false
+      submarine = Ship.new("Submarine", 2)
       user_submarine_cell_1 = "C5"
       user_submarine_cell_2 = "E9"
       user_submarine_cells = [user_submarine_cell_1, user_submarine_cell_2]
       puts "You have overlapping ships. Try again!"
-      while @user_board.valid_placement_consecutive?(@user_sub, user_submarine_cells) == false
+      while @user_board.valid_placement_consecutive?(submarine, user_submarine_cells) == false
         puts "Enter the cells in which you would like to place your sub one at a time:"
         puts "First coordinate:"
       user_submarine_cell_1 = gets.chomp
@@ -165,12 +184,12 @@ class Game
 
         user_submarine_cells = [user_submarine_cell_1, user_submarine_cell_2]
       #require "pry"; binding.pry
-        if @user_board.valid_placement_consecutive?(@user_sub, user_submarine_cells) == false
+        if @user_board.valid_placement_consecutive?(submarine, user_submarine_cells) == false
           puts "Your coordinates were not consecutive. Please try again."
         end
       end
     end
-    @user_board.place(@user_sub, user_submarine_cells)
+    @user_board.place(submarine, user_submarine_cells)
     # require "pry"; binding.pry
   end
 
