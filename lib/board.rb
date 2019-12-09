@@ -53,10 +53,11 @@ class Board
     end
 
     coord_numbers = split_coordinate.map {|array| array[1].to_i}
-    coord_numbers == (coord_numbers.min..coord_numbers.max).to_a && coord_numbers.length == array.length
+    num_check_consecutive = coord_numbers == (coord_numbers.min..coord_numbers.max).to_a && coord_numbers.length == array.length
+    num_check_equal =
 
     coord_letters = split_coordinate.map {|array| array[0].ord}
-    coord_letters == (coord_letters.min..coord_letters.max).to_a && coord_letters.length == array.length
+    letter_check_consecutive = coord_letters == (coord_letters.min..coord_letters.max).to_a && coord_letters.length == array.length
 
 
     require "pry"; binding.pry
