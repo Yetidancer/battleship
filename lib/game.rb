@@ -1,14 +1,58 @@
 require './lib/ship'
 require './lib/cell'
 require './lib/board'
+require './lib/turn'
+
 
 class Game
-  attr_reader :user_board, :comp_board
+
+  attr_reader :user_board, :comp_board, :previous_shots, :user_cruiser, :user_sub
 
   def initialize
     @comp_board = Board.new
     @user_board = Board.new
+    @user_previous_shots = []
+    @cpu_previous_shots =[]
+
     # require "pry"; binding.pry
+  end
+
+  def user_take_turn
+    puts "Choose a coordinate upon which to fire."
+    fire = gets.chomp
+
+    unless @comp_board.cells.include?(fire)
+      puts "Please input a valid coordinate."
+      fire = gets.chomp
+    end
+
+    turn = Turn.new(fire, @comp_board)
+
+    while @user_previous_shots.include?(fire)
+      puts "That cell has already been shot. Please choose another."
+      fire = gets.chomp
+      turn = Turn.new(fire, @comp_board)
+    end
+  turn.take_shot
+  @user_previous_shots << turn.shot
+  end
+
+  def cpu_take_turn
+    fire = @user_board.cells.keys.shuffle.first
+
+    unless @user_board.cells.include?(fire)
+      puts "Please input a valid coordinate."
+      fire = @user_board.cells.keys.shuffle.first
+    end
+
+    turn = Turn.new(fire, @user_board)
+
+    while @cpu_previous_shots.include?(fire)
+      fire = @comp_board.cells.keys.shuffle.first
+      turn = Turn.new(fire, @comp_board)
+    end
+  turn.take_shot
+  @cpu_previous_shots << turn.shot
   end
 
   def start_game
@@ -37,7 +81,7 @@ class Game
   C . . . .
   D . . . ."
 
-  #require "pry"; binding.pry
+
   end
 
   def user_input_cruiser_cells
@@ -261,5 +305,6 @@ class Game
 
     return coordinates
   end
+
 
 end
