@@ -18,6 +18,16 @@ class Game
   end
 
   def user_take_turn
+    #Error message to check on
+    #Choose a coordinate upon which to fire.
+#F3
+#Please input a valid coordinate.
+#G5
+#Traceback (most recent call last):
+#        2: from battleship_runner.rb:17:in `<main>'
+#        1: from /Users/ea/turing/1mod/projects/battleship/lib/game.rb:36:in `user_take_turn'
+#/Users/ea/turing/1mod/projects/battleship/lib/turn.rb:12:in `take_shot': undefined method `fire_upon' for nil:NilClass (NoMethodError
+#)
     puts "Choose a coordinate upon which to fire."
     fire = gets.chomp
 
