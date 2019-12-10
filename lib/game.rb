@@ -6,7 +6,8 @@ require './lib/turn'
 
 class Game
 
-  attr_reader :user_board, :comp_board, :previous_shots, :user_cruiser, :user_sub #we have instance variables that I'm not sure are in use
+  attr_reader :user_board, :comp_board
+  #we have instance variables that I'm not sure are in use
 
   def initialize
     @comp_board = Board.new
@@ -29,18 +30,21 @@ class Game
 #/Users/ea/turing/1mod/projects/battleship/lib/turn.rb:12:in `take_shot': undefined method `fire_upon' for nil:NilClass (NoMethodError
 #)
     puts "Choose a coordinate upon which to fire."
-    fire = gets.chomp
+    pre_fire = gets.chomp
+    fire = pre_fire.slice(0,1).capitalize + pre_fire.slice(1..-1)
 
     unless @comp_board.cells.include?(fire)
       puts "Please input a valid coordinate."
-      fire = gets.chomp
+      pre_fire = gets.chomp
+      fire = pre_fire.slice(0,1).capitalize + pre_fire.slice(1..-1)
     end
 
     turn = Turn.new(fire, @comp_board)
 
     while @user_previous_shots.include?(fire)
       puts "That cell has already been shot. Please choose another."
-      fire = gets.chomp
+      pre_fire = gets.chomp
+      fire = pre_fire.slice(0,1).capitalize + pre_fire.slice(1..-1)
       turn = Turn.new(fire, @comp_board)
     end
   turn.take_shot
