@@ -51,7 +51,7 @@ class Game
     fire = @user_board.cells.keys.shuffle.first
 
     unless @user_board.cells.include?(fire)
-      puts "Please input a valid coordinate."
+      puts "Please input a valid coordinate:"
       fire = @user_board.cells.keys.shuffle.first
     end
 
