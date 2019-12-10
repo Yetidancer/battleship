@@ -97,11 +97,11 @@ class BoardTest < Minitest::Test
 "A X X . . \n" +
 "B . M . . \n" +
 "C . . . H \n" +
-"D . . . . \n", @board.renders
+"D . . . . \n", @board.renders("cpu")
     assert_equal "  1 2 3 4 \n" +
 "A X X . . \n" +
 "B . M . S \n" +
 "C . . . H \n" +
-"D . . . S \n", @board.renders(true)
+"D . . . S \n", @board.renders("player", true)
   end
 end
