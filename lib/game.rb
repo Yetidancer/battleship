@@ -113,7 +113,7 @@ class Game
   end
 
   def user_input_cruiser_cells
-    # comp_place_coordinates
+    comp_place_coordinates
 
     cruiser = Ship.new("Cruiser", 3)
     user_cruiser_cell_1 = "C5"

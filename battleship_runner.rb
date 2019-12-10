@@ -11,7 +11,7 @@ play.game.user_input_cruiser_cells
 play.game.user_input_submarine_cells
 play.user_game_status?
 play.cpu_game_status?
-# require "pry"; binding.pry
+require "pry"; binding.pry
 while play.user_game_status.include?("S") && play.cpu_game_status.include?("S")
   puts play.game.comp_board.renders("the CPU")
   puts play.game.user_board.renders("your", true)
