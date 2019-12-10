@@ -51,15 +51,15 @@ class Game
     fire = @user_board.cells.keys.shuffle.first
 
     unless @user_board.cells.include?(fire)
-      puts "Please input a valid coordinate."
+      puts "Please input a valid coordinate:"
       fire = @user_board.cells.keys.shuffle.first
     end
 
     turn = Turn.new(fire, @user_board)
 
     while @cpu_previous_shots.include?(fire)
-      fire = @comp_board.cells.keys.shuffle.first
-      turn = Turn.new(fire, @comp_board)
+      fire = @user_board.cells.keys.shuffle.first
+      turn = Turn.new(fire, @user_board)
     end
   turn.take_shot
   @cpu_previous_shots << turn.shot
@@ -77,20 +77,6 @@ class Game
       puts "-" * 30
     end
     # require "pry"; binding.pry
-    #computer generate random ship coordinates and assign them to cells
-    # require "pry"; binding.pry
-    puts "CPU:
-  I have laid out my ships on the grid.
-  You now need to lay out your two ships.
-  The Cruiser is three units long and the Submarine is two units long.
-
-    1 2 3 4
-  A . . . .
-  B . . . .
-  C . . . .
-  D . . . ."
-
-
   end
 
   def set_comp_board_size
@@ -110,10 +96,14 @@ class Game
       @comp_board.cells[coordinate] = Cell.new(coordinate)
     end
     # require "pry"; binding.pry
+
+    @user_board.render_first_row("your")
+    @user_board.renders
+    puts "Please place your ships on the board above:"
   end
 
   def user_input_cruiser_cells
-    comp_place_coordinates
+    # comp_place_coordinates
 
     cruiser = Ship.new("Cruiser", 3)
     user_cruiser_cell_1 = "C5"
@@ -153,6 +143,7 @@ class Game
 
     #require "pry"; binding.pry
     end
+    comp_place_coordinates(cruiser.length)
     @user_board.place(cruiser, user_cruiser_cells)
     # require "pry"; binding.pry
   end
@@ -219,123 +210,171 @@ class Game
         end
       end
     end
+    comp_place_coordinates(submarine.length)
     @user_board.place(submarine, user_submarine_cells)
     # require "pry"; binding.pry
   end
 
-  def comp_place_coordinates
+  def comp_place_coordinates(length)
+    ship = Ship.new("Ship", length)
     # require "pry"; binding.pry
-    cruiser_placement = comp_coordinates_cruiser
-    cruiser = Ship.new("Cruiser", 3)
-    @comp_board.place(cruiser, cruiser_placement)
-    submarine_placement = comp_coordinates_submarine
-    submarine = Ship.new("Submarine", 2)
+    # cruiser_placement = comp_coordinates_cruiser
+    # cruiser = Ship.new("Cruiser", 3)
+    # @comp_board.place(cruiser, cruiser_placement)
+    # submarine_placement = comp_coordinates_submarine
+    # submarine = Ship.new("Submarine", 2)
+    # # require "pry"; binding.pry
+    #
+    # while @comp_board.valid_placement_no_overlap?(submarine, submarine_placement) == false
+    #   # require "pry"; binding.pry
+    #   submarine_placement = comp_coordinates_submarine
+    # end
+    # @comp_board.place(submarine, submarine_placement)
+    # # require "pry"; binding.pry
     # require "pry"; binding.pry
 
-    while @comp_board.valid_placement_no_overlap?(submarine, submarine_placement) == false
-      # require "pry"; binding.pry
-      submarine_placement = comp_coordinates_submarine
+    comp_ship_placement = comp_random_coordinates(length)
+
+    while @comp_board.valid_placement_no_overlap?(ship, comp_random_coordinates(length)) == false
+      comp_ship_placement = comp_random_coordinates(length)
     end
-    @comp_board.place(submarine, submarine_placement)
-    # require "pry"; binding.pry
+    @comp_board.place(ship, comp_random_coordinates(length))
   end
 
-  def comp_coordinates_cruiser
-    comp_coordinates_cruiser = []
-    comp_coordinates_cruiser << hor_random_3
-    comp_coordinates_cruiser << vert_random_3
-    comp_coordinates_cruiser.shuffle.first
-    # require "pry"; binding.pry
+  # def comp_coordinates_cruiser
+  #   comp_coordinates_cruiser = []
+  #   comp_coordinates_cruiser << hor_random_3
+  #   comp_coordinates_cruiser << vert_random_3
+  #   comp_coordinates_cruiser.shuffle.first
+  #   # require "pry"; binding.pry
+  # end
+  #
+  # def comp_coordinates_submarine
+  #   comp_coordinates_submarine = []
+  #   comp_coordinates_submarine << vert_random_2
+  #   comp_coordinates_submarine << hor_random_2
+  #   comp_coordinates_submarine.shuffle.first
+  # end
+
+  def comp_random_coordinates(length)
+    comp_coordinates = nil
+
+    width_num = (1..@comp_board.size).to_a
+    height_num = width_num.map(&:clone)
+    width = width_num.map {|num| num.to_s}
+    height = height_num.map {|num| (num += 64).chr}
+
+    # split_coordinate = @cells.keys.map {|coordinate| coordinate.split''}
+
+    comp_coordinates_width_array = []
+    comp_coordinates_height_array = []
+    width_num.each_cons(length) {|arr| comp_coordinates_width_array << arr}
+    height_num.each_cons(length) {|arr| comp_coordinates_height_array << arr}
+
+    comp_coordinates_width = comp_coordinates_width_array.sample
+    #random array of horizontal coordinates
+    comp_coordinates_height = comp_coordinates_height_array.sample
+    #random array of vertical coordinates
+
+    comp_coordinate_horiz = width.sample
+    #one element of number strings array
+    comp_coordinate_vert = height.sample
+    #one element of letter strings array
+
+    comp_coordinates_horiz_choice = comp_coordinates_width.map do |num|
+      comp_coordinate_vert + num.to_s
+    end
+
+    comp_coordinates_vert_choice = comp_coordinates_height.map do |letter|
+      (letter += 64).chr + comp_coordinate_horiz
+    end
+
+    comp_coordinates = [comp_coordinates_vert_choice, comp_coordinates_horiz_choice].sample
+
+    comp_coordinates
   end
 
-  def comp_coordinates_submarine
-    comp_coordinates_submarine = []
-    comp_coordinates_submarine << vert_random_2
-    comp_coordinates_submarine << hor_random_2
-    comp_coordinates_submarine.shuffle.first
-  end
-
-  def vert_random_3
-    coordinates = []
-    board_co = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4"]
-    coord = board_co.shuffle.first
-    rando = [coord]
-    coordinates << coord
-
-    cell_1 = rando[0].split''
-    letter_1 = cell_1[0].ord
-    number_1 = cell_1[1].to_i
-    letter_2 = letter_1 + 1
-    number_2 = number_1
-    coord_1 = letter_2.chr + number_2.to_s
-    coordinates << coord_1
-
-    letter_3 = letter_2 + 1
-    number_3 = number_2
-    coord_2 = letter_3.chr + number_3.to_s
-    coordinates << coord_2
-
-    return coordinates
-  end
-
-  def hor_random_3
-    coordinates = []
-    board_co = ["A1", "A2", "B1", "B2", "C1", "C2", "D1", "D2"]
-    coord = board_co.shuffle.first
-    rando = [coord]
-    coordinates << coord
-
-    cell_1 = rando[0].split''
-    letter_1 = cell_1[0].ord
-    number_1 = cell_1[1].to_i
-    letter_2 = letter_1
-    number_2 = number_1 + 1
-    coord_1 = letter_2.chr + number_2.to_s
-    coordinates << coord_1
-
-    letter_3 = letter_2
-    number_3 = number_2 + 1
-    coord_2 = letter_3.chr + number_3.to_s
-    coordinates << coord_2
-
-    return coordinates
-  end
-
-  def vert_random_2
-    coordinates = []
-    board_co = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4"]
-    coord = board_co.shuffle.first
-    rando = [coord]
-    coordinates << coord
-
-    cell_1 = rando[0].split''
-    letter_1 = cell_1[0].ord
-    number_1 = cell_1[1].to_i
-    letter_2 = letter_1 + 1
-    number_2 = number_1
-    coord_1 = letter_2.chr + number_2.to_s
-    coordinates << coord_1
-
-    return coordinates
-  end
-
-  def hor_random_2
-    coordinates = []
-    board_co = ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3"]
-    coord = board_co.shuffle.first
-    rando = [coord]
-    coordinates << coord
-
-    cell_1 = rando[0].split''
-    letter_1 = cell_1[0].ord
-    number_1 = cell_1[1].to_i
-    letter_2 = letter_1
-    number_2 = number_1 + 1
-    coord_1 = letter_2.chr + number_2.to_s
-    coordinates << coord_1
-
-    return coordinates
-  end
+  # def vert_random_3
+  #   coordinates = []
+  #   board_co = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4"]
+  #   coord = board_co.shuffle.first
+  #   rando = [coord]
+  #   coordinates << coord
+  #
+  #   cell_1 = rando[0].split''
+  #   letter_1 = cell_1[0].ord
+  #   number_1 = cell_1[1].to_i
+  #   letter_2 = letter_1 + 1
+  #   number_2 = number_1
+  #   coord_1 = letter_2.chr + number_2.to_s
+  #   coordinates << coord_1
+  #
+  #   letter_3 = letter_2 + 1
+  #   number_3 = number_2
+  #   coord_2 = letter_3.chr + number_3.to_s
+  #   coordinates << coord_2
+  #
+  #   return coordinates
+  # end
+  #
+  # def hor_random_3
+  #   coordinates = []
+  #   board_co = ["A1", "A2", "B1", "B2", "C1", "C2", "D1", "D2"]
+  #   coord = board_co.shuffle.first
+  #   rando = [coord]
+  #   coordinates << coord
+  #
+  #   cell_1 = rando[0].split''
+  #   letter_1 = cell_1[0].ord
+  #   number_1 = cell_1[1].to_i
+  #   letter_2 = letter_1
+  #   number_2 = number_1 + 1
+  #   coord_1 = letter_2.chr + number_2.to_s
+  #   coordinates << coord_1
+  #
+  #   letter_3 = letter_2
+  #   number_3 = number_2 + 1
+  #   coord_2 = letter_3.chr + number_3.to_s
+  #   coordinates << coord_2
+  #
+  #   return coordinates
+  # end
+  #
+  # def vert_random_2
+  #   coordinates = []
+  #   board_co = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4"]
+  #   coord = board_co.shuffle.first
+  #   rando = [coord]
+  #   coordinates << coord
+  #
+  #   cell_1 = rando[0].split''
+  #   letter_1 = cell_1[0].ord
+  #   number_1 = cell_1[1].to_i
+  #   letter_2 = letter_1 + 1
+  #   number_2 = number_1
+  #   coord_1 = letter_2.chr + number_2.to_s
+  #   coordinates << coord_1
+  #
+  #   return coordinates
+  # end
+  #
+  # def hor_random_2
+  #   coordinates = []
+  #   board_co = ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3"]
+  #   coord = board_co.shuffle.first
+  #   rando = [coord]
+  #   coordinates << coord
+  #
+  #   cell_1 = rando[0].split''
+  #   letter_1 = cell_1[0].ord
+  #   number_1 = cell_1[1].to_i
+  #   letter_2 = letter_1
+  #   number_2 = number_1 + 1
+  #   coord_1 = letter_2.chr + number_2.to_s
+  #   coordinates << coord_1
+  #
+  #   return coordinates
+  # end
 
 
 end

@@ -88,20 +88,13 @@ class Board
   end
 
   def renders(arg = false)
-#     puts "This is #{player} board."
-#     "  1 2 3 4 \n" +
-# "A #{@cells["A1"].render(arg)} #{@cells["A2"].render(arg)} #{@cells["A3"].render(arg)} #{@cells["A4"].render(arg)} \n" +
-# "B #{@cells["B1"].render(arg)} #{@cells["B2"].render(arg)} #{@cells["B3"].render(arg)} #{@cells["B4"].render(arg)} \n" +
-# "C #{@cells["C1"].render(arg)} #{@cells["C2"].render(arg)} #{@cells["C3"].render(arg)} #{@cells["C4"].render(arg)} \n" +
-# "D #{@cells["D1"].render(arg)} #{@cells["D2"].render(arg)} #{@cells["D3"].render(arg)} #{@cells["D4"].render(arg)} \n"
-
 
     width_num = (1..@size).to_a
     height_num = width_num.map(&:clone)
     width = width_num.map {|num| num.to_s}
     height = height_num.map {|num| (num += 64).chr}
 
-    split_coordinate = @cells.keys.map {|coordinate| coordinate.split''}
+    split_coordinate = @cells.keys.map {|coordinate| coordinate.split('',2)}
 
     height.each do |letter|
       print letter + " "
@@ -109,6 +102,7 @@ class Board
         if letter == array[0]
           # require "pry"; binding.pry
           print @cells[array[0] + array[1]].render(arg) + " "
+          # require "pry"; binding.pry
         end
       end
       print "\n"
