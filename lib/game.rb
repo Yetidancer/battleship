@@ -6,13 +6,13 @@ require './lib/turn'
 
 class Game
 
-  attr_reader :user_board, :comp_board, :previous_shots, :user_cruiser, :user_sub
+  attr_reader :user_board, :comp_board, :previous_shots, :user_cruiser, :user_sub #we have instance variables that I'm not sure are in use
 
   def initialize
     @comp_board = Board.new
     @user_board = Board.new
     @user_previous_shots = []
-    @cpu_previous_shots =[]
+    @cpu_previous_shots = []
 
     # require "pry"; binding.pry
   end
@@ -77,7 +77,6 @@ class Game
       puts "-" * 30
     end
     # require "pry"; binding.pry
-    # comp_place_coordinates
     #computer generate random ship coordinates and assign them to cells
     # require "pry"; binding.pry
     puts "CPU:
@@ -94,7 +93,28 @@ class Game
 
   end
 
+  def set_comp_board_size
+    # require "pry"; binding.pry
+    @comp_board.size = @user_board.size
+
+    width_num = (1..@comp_board.size).to_a
+    height_num = width_num.map(&:clone)
+    width = width_num.map {|num| num.to_s}
+    height = height_num.map {|num| (num += 64).chr}
+
+    list = height.map do |letter|
+      width.map {|num| [letter, num].join}
+    end
+
+    list.flatten.each do |coordinate|
+      @comp_board.cells[coordinate] = Cell.new(coordinate)
+    end
+    # require "pry"; binding.pry
+  end
+
   def user_input_cruiser_cells
+    # comp_place_coordinates
+
     cruiser = Ship.new("Cruiser", 3)
     user_cruiser_cell_1 = "C5"
     user_cruiser_cell_2 = "E9"
@@ -204,12 +224,13 @@ class Game
   end
 
   def comp_place_coordinates
+    require "pry"; binding.pry
     cruiser_placement = comp_coordinates_cruiser
     cruiser = Ship.new("Cruiser", 3)
     @comp_board.place(cruiser, cruiser_placement)
     submarine_placement = comp_coordinates_submarine
     submarine = Ship.new("Submarine", 2)
-    # require "pry"; binding.pry
+    require "pry"; binding.pry
 
     while @comp_board.valid_placement_no_overlap?(submarine, submarine_placement) == false
       # require "pry"; binding.pry
