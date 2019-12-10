@@ -1,18 +1,24 @@
 require "./lib/cell"
 class Board
 
-  attr_reader :cells
+  attr_reader :cells, :size
   def initialize
     @cells = {}
+    @size = nil
      # require "pry"; binding.pry
   end
 
   def set_board_size
     puts "What size would you like the board to be? Enter an integer between 1 and 26:"
 
-    size = gets.chomp.to_i
+    @size = gets.chomp.to_i
 
-    width_num = (1..size).to_a
+    if @size > 26 || @size < 1
+      puts "That is not a valid size, please enter an integer between 1 and 26:"
+      @size = gets.chomp.to_i
+    end
+
+    width_num = (1..@size).to_a
     height_num = width_num.map(&:clone)
     width = width_num.map {|num| num.to_s}
     height = height_num.map {|num| (num += 64).chr}
@@ -73,6 +79,26 @@ class Board
 "B #{@cells["B1"].render(arg)} #{@cells["B2"].render(arg)} #{@cells["B3"].render(arg)} #{@cells["B4"].render(arg)} \n" +
 "C #{@cells["C1"].render(arg)} #{@cells["C2"].render(arg)} #{@cells["C3"].render(arg)} #{@cells["C4"].render(arg)} \n" +
 "D #{@cells["D1"].render(arg)} #{@cells["D2"].render(arg)} #{@cells["D3"].render(arg)} #{@cells["D4"].render(arg)} \n"
+
+
+    # width_num = (1..@size).to_a
+    # height_num = width_num.map(&:clone)
+    # width = width_num.map {|num| num.to_s}
+    # height = height_num.map {|num| (num += 64).chr}
+    #
+    # print "  "
+    # width.each do |num|
+    #   print "#{num} "
+    # end
+    # print "\n"
+    #
+    # split_coordinate = @cells.keys.map {|coordinate| coordinate.split''}
+    #
+    #
+    # height.each do |letter|
+    #   print letter
+    #   while letter ==
+
   end
 
 end
