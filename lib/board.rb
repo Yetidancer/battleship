@@ -11,12 +11,12 @@ class Board
   end
 
   def set_board_size
-    puts "What size would you like the board to be? Enter an integer between 1 and 26:"
+    puts "What size would you like the board to be? Enter an integer between 4 and 26:"
 
     @size = gets.chomp.to_i
 
-    if @size > 26 || @size < 1
-      puts "That is not a valid size, please enter an integer between 1 and 26:"
+    until @size < 27 && @size > 3 && @size.is_a?(Integer)
+      puts "That is not a valid size, please enter an integer between 4 and 26:"
       @size = gets.chomp.to_i
     end
 
@@ -32,6 +32,7 @@ class Board
     list.flatten.each do |coordinate|
       @cells[coordinate] = Cell.new(coordinate)
     end
+    
   end
 
   def place(ship, coordinates)
