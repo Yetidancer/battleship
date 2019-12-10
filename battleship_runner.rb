@@ -13,8 +13,10 @@ play.user_game_status?
 play.cpu_game_status?
 # require "pry"; binding.pry
 while play.user_game_status.include?("S") && play.cpu_game_status.include?("S")
-  puts play.game.comp_board.renders("the CPU")
-  puts play.game.user_board.renders("your", true)
+  play.game.comp_board.render_first_row("the CPU")
+  play.game.comp_board.renders
+  play.game.user_board.render_first_row("your")
+  play.game.user_board.renders(true)
   play.game.cpu_take_turn
   play.game.user_take_turn
   play.user_game_status?
