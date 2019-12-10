@@ -106,13 +106,14 @@ class Board
     height.each do |letter|
       print letter + " "
       split_coordinate.each do |array|
-        while letter == array[0]
+        if letter == array[0]
+          # require "pry"; binding.pry
           print @cells[array[0] + array[1]].render(arg) + " "
         end
       end
-      print "/n"
+      print "\n"
     end
 
   end
 
-end 
+end

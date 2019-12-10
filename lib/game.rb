@@ -224,13 +224,13 @@ class Game
   end
 
   def comp_place_coordinates
-    require "pry"; binding.pry
+    # require "pry"; binding.pry
     cruiser_placement = comp_coordinates_cruiser
     cruiser = Ship.new("Cruiser", 3)
     @comp_board.place(cruiser, cruiser_placement)
     submarine_placement = comp_coordinates_submarine
     submarine = Ship.new("Submarine", 2)
-    require "pry"; binding.pry
+    # require "pry"; binding.pry
 
     while @comp_board.valid_placement_no_overlap?(submarine, submarine_placement) == false
       # require "pry"; binding.pry
