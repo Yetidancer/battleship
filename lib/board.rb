@@ -1,7 +1,9 @@
 require "./lib/cell"
+require "./lib/game"
 class Board
 
-  attr_reader :cells, :size
+  attr_reader :cells
+  attr_accessor :size
   def initialize
     @cells = {}
     @size = nil
