@@ -14,7 +14,7 @@ play.cpu_game_status?
 # require "pry"; binding.pry
 while play.user_game_status.include?("S") && play.cpu_game_status.include?("S")
   play.game.comp_board.render_first_row("the CPU")
-  play.game.comp_board.renders
+  play.game.comp_board.renders(true)
   play.game.user_board.render_first_row("your")
   play.game.user_board.renders(true)
   play.game.cpu_take_turn

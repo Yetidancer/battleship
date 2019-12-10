@@ -226,6 +226,7 @@ class Game
   end
 
   def comp_place_coordinates(length)
+    ship = Ship.new("Ship", length)
     # require "pry"; binding.pry
     # cruiser_placement = comp_coordinates_cruiser
     # cruiser = Ship.new("Cruiser", 3)
@@ -240,7 +241,7 @@ class Game
     # end
     # @comp_board.place(submarine, submarine_placement)
     # # require "pry"; binding.pry
-    require "pry"; binding.pry
+    # require "pry"; binding.pry
 
     comp_ship_placement = comp_random_coordinates(length)
 
@@ -268,12 +269,12 @@ class Game
   def comp_random_coordinates(length)
     comp_coordinates = nil
 
-    width_num = (1..@size).to_a
+    width_num = (1..@comp_board.size).to_a
     height_num = width_num.map(&:clone)
     width = width_num.map {|num| num.to_s}
     height = height_num.map {|num| (num += 64).chr}
 
-    split_coordinate = @cells.keys.map {|coordinate| coordinate.split''}
+    # split_coordinate = @cells.keys.map {|coordinate| coordinate.split''}
 
     comp_coordinates_width_array = []
     comp_coordinates_height_array = []
@@ -300,7 +301,7 @@ class Game
 
     comp_coordinates = [comp_coordinates_vert_choice, comp_coordinates_horiz_choice].sample
 
-    comp_coordinates 
+    comp_coordinates
   end
 
   # def vert_random_3

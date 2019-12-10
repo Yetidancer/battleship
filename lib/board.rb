@@ -94,7 +94,7 @@ class Board
     width = width_num.map {|num| num.to_s}
     height = height_num.map {|num| (num += 64).chr}
 
-    split_coordinate = @cells.keys.map {|coordinate| coordinate.split''}
+    split_coordinate = @cells.keys.map {|coordinate| coordinate.split('',2)}
 
     height.each do |letter|
       print letter + " "
@@ -102,6 +102,7 @@ class Board
         if letter == array[0]
           # require "pry"; binding.pry
           print @cells[array[0] + array[1]].render(arg) + " "
+          # require "pry"; binding.pry
         end
       end
       print "\n"
