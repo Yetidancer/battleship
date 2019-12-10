@@ -23,8 +23,10 @@ while play.user_game_status.include?("S") && play.cpu_game_status.include?("S")
   play.cpu_game_status?
 end
 
-puts play.game.comp_board.renders("the CPU")
-puts play.game.user_board.renders("your", true)
+play.game.comp_board.render_first_row("the CPU")
+play.game.comp_board.renders(true)
+play.game.user_board.render_first_row("your")
+play.game.user_board.renders(true)
 
 if play.cpu_game_status.include?("S")
   puts "GAME OVER! YOU LOSE!"

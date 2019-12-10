@@ -58,8 +58,8 @@ class Game
     turn = Turn.new(fire, @user_board)
 
     while @cpu_previous_shots.include?(fire)
-      fire = @comp_board.cells.keys.shuffle.first
-      turn = Turn.new(fire, @comp_board)
+      fire = @user_board.cells.keys.shuffle.first
+      turn = Turn.new(fire, @user_board)
     end
   turn.take_shot
   @cpu_previous_shots << turn.shot
@@ -77,20 +77,6 @@ class Game
       puts "-" * 30
     end
     # require "pry"; binding.pry
-    #computer generate random ship coordinates and assign them to cells
-    # require "pry"; binding.pry
-    puts "CPU:
-  I have laid out my ships on the grid.
-  You now need to lay out your two ships.
-  The Cruiser is three units long and the Submarine is two units long.
-
-    1 2 3 4
-  A . . . .
-  B . . . .
-  C . . . .
-  D . . . ."
-
-
   end
 
   def set_comp_board_size
@@ -110,6 +96,10 @@ class Game
       @comp_board.cells[coordinate] = Cell.new(coordinate)
     end
     # require "pry"; binding.pry
+
+    @user_board.render_first_row("your")
+    @user_board.renders
+    puts "Please place your ships on the board above:"
   end
 
   def user_input_cruiser_cells
