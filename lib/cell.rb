@@ -6,7 +6,7 @@ class Cell
 
   def initialize(coordinate)
     @coordinate = coordinate
-    @ship = nil #could also use [].first
+    @ship = nil
     @fired_on = false
   end
 
@@ -16,7 +16,7 @@ class Cell
   end
 
   def place_ship(ship)
-    @ship = ship #with [].first for ship, this would be @ship << ship
+    @ship = ship 
   end
 
   def fired_upon?
