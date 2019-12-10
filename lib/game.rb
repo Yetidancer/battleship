@@ -77,7 +77,7 @@ class Game
       puts "-" * 30
     end
     # require "pry"; binding.pry
-    comp_place_coordinates
+    # comp_place_coordinates
     #computer generate random ship coordinates and assign them to cells
     # require "pry"; binding.pry
     puts "CPU:

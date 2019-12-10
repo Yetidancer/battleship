@@ -10,8 +10,11 @@ class Play
 
   def cpu_game_status?
     @cpu_game_status = []
-    @game.comp_board.cells.keys.each do |key|
-      @cpu_game_status <<  @game.comp_board.cells[key].render(true)
+    # @game.comp_board.cells.keys.each do |key|
+    #   @cpu_game_status <<  @game.comp_board.cells[key].render(true)
+    # end
+    @game.comp_board.cells.values.each do |value|
+      @cpu_game_status <<  value.render(true)
     end
     @cpu_game_status
   end
