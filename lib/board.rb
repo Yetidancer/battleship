@@ -63,6 +63,7 @@ class Board
     end
 
     coord_numbers = split_coordinate.map {|array| array[1].to_i}
+    # require "pry"; binding.pry
     num_check_consecutive = coord_numbers == (coord_numbers.min..coord_numbers.max).to_a && coord_numbers.length == array.length
     num_check_equal = nil == coord_numbers.find {|number| coord_numbers[0] != number}
 

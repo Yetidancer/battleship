@@ -133,7 +133,9 @@ class Game
 
     while @user_board.valid_placement_consecutive?(ship1, user_cruiser_cells) == false
       user_cruiser_cells = []
+      counter = 1
       until counter == (ship_size + 1)
+        # require "pry"; binding.pry
         puts "Enter the cells in which you would like to place the #{ship_name} one at a time:"
         puts "Coordinate #{counter}:"
         new_cruiser_cell_1 = gets.chomp
@@ -147,8 +149,9 @@ class Game
         counter += 1
         user_cruiser_cells << user_cruiser_cell_1
       end
+      # require "pry"; binding.pry
       if @user_board.valid_placement_consecutive?(ship1, user_cruiser_cells) == false
-        puts "Your coordinates were not consecutive. Please try again."
+        puts "YOUR COORDINATES ARE NOT CONSECUTIVE. Please try again."
       end
     end
     comp_place_coordinates(ship1.length)
@@ -187,6 +190,7 @@ class Game
 
     while @user_board.valid_placement_consecutive?(ship, user_cruiser_cells) == false
       user_cruiser_cells = []
+      counter = 1
       until counter == (ship_size + 1)
         puts "Enter the cells in which you would like to place the #{ship_name} one at a time:"
         puts "Coordinate #{counter}:"
@@ -202,7 +206,7 @@ class Game
         user_cruiser_cells << user_cruiser_cell_1
       end
       if @user_board.valid_placement_consecutive?(ship, user_cruiser_cells) == false
-        puts "Your coordinates were not consecutive. Please try again."
+        puts "YOUR COORDINATES ARE NOT CONSECUTIVE. Please try again."
       end
     end
 
@@ -233,6 +237,7 @@ class Game
 
       while @user_board.valid_placement_consecutive?(ship, user_cruiser_cells) == false
         user_cruiser_cells = []
+        counter = 1
         until counter == (ship_size + 1)
           puts "Enter the cells in which you would like to place the #{ship_name} one at a time:"
           puts "Coordinate #{counter}:"
@@ -248,7 +253,7 @@ class Game
           user_cruiser_cells << user_cruiser_cell_1
         end
         if @user_board.valid_placement_consecutive?(ship, user_cruiser_cells) == false
-          puts "Your coordinates were not consecutive. Please try again."
+          puts "YOUR COORDINATES ARE NOT CONSECUTIVE. Please try again."
         end
       end
     end
