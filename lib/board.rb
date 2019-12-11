@@ -57,6 +57,7 @@ class Board
   end
 
   def valid_placement_consecutive?(ship, array)
+    return false if array.length == 1
     split_coordinate = array.map do |coordinate|
       coordinate.split("",2)
     end

@@ -107,52 +107,78 @@ class Game
   end
 
   def user_input_cruiser_cells
+    #prompt user for ship size and ship name
+    puts "How many cells would you like your ship to be?"
+    ship_size = gets.chomp.to_i
+    while ship_size > @user_board.size
+      puts "Ship is too big for the board. Try again."
+      ship_size = gets.chomp.to_i
+    end
+    puts "What name would you like to give to your ship?"
+    ship_name = gets.chomp.to_s
 
-    cruiser = Ship.new("Cruiser", 3)
+    #ship size must be equal or less than board size
+    ship1 = Ship.new(ship_name, ship_size)
+
     user_cruiser_cell_1 = "C5"
     user_cruiser_cell_2 = "E9"
     user_cruiser_cell_3 = "Z3"
     user_cruiser_cells = [user_cruiser_cell_1, user_cruiser_cell_2, user_cruiser_cell_3]
+    counter = 1
 
-    while @user_board.valid_placement_consecutive?(cruiser, user_cruiser_cells) == false
-      puts "Enter the cells in which you would like to place your cruiser one at a time:"
-      puts "First coordinate:"
-      new_cruiser_cell_1 = gets.chomp
-      user_cruiser_cell_1 = new_cruiser_cell_1.slice(0,1).capitalize + new_cruiser_cell_1.slice(1..-1)
-
-      while @user_board.valid_coordinate?(user_cruiser_cell_1) == false
-        puts "This is not a valid coordinate for your cruiser. Please input your first coordinate with a row letter between A and D and a column number between 1 and 4:"
+    while @user_board.valid_placement_consecutive?(ship1, user_cruiser_cells) == false
+      user_cruiser_cells = []
+      until counter == (ship_size + 1)
+        puts "Enter the cells in which you would like to place your cruiser one at a time:"
+        puts "Coordinate #{counter}:"
         new_cruiser_cell_1 = gets.chomp
         user_cruiser_cell_1 = new_cruiser_cell_1.slice(0,1).capitalize + new_cruiser_cell_1.slice(1..-1)
+
+        while @user_board.valid_coordinate?(user_cruiser_cell_1) == false
+          puts "This is not a valid coordinate for your cruiser. Please input your first coordinate with a row letter between A and D and a column number between 1 and 4:"
+          new_cruiser_cell_1 = gets.chomp
+          user_cruiser_cell_1 = new_cruiser_cell_1.slice(0,1).capitalize + new_cruiser_cell_1.slice(1..-1)
+        end
+        counter += 1
+        user_cruiser_cells << user_cruiser_cell_1
       end
-
-      puts "Second coordinate:"
-      new_cruiser_cell_2 = gets.chomp
-      user_cruiser_cell_2 = new_cruiser_cell_2.slice(0,1).capitalize + new_cruiser_cell_2.slice(1..-1)
-      while @user_board.valid_coordinate?(user_cruiser_cell_2) == false
-        puts "This is not a valid coordinate for your cruiser. Please input your second coordinate with a row letter between A and D and a column number between 1 and 4:"
-        new_cruiser_cell_2 = gets.chomp
-        user_cruiser_cell_2 = new_cruiser_cell_2.slice(0,1).capitalize + new_cruiser_cell_2.slice(1..-1)
-      end
-
-      puts "Third coordinate:"
-      new_cruiser_cell_3 = gets.chomp
-      user_cruiser_cell_3 = new_cruiser_cell_3.slice(0,1).capitalize + new_cruiser_cell_3.slice(1..-1)
-      while @user_board.valid_coordinate?(user_cruiser_cell_3) == false
-        puts "This is not a valid coordinate for your cruiser. Please input your third coordinate with a row letter between A and D and a column number between 1 and 4:"
-        new_cruiser_cell_3 = gets.chomp
-        user_cruiser_cell_3 = new_cruiser_cell_3.slice(0,1).capitalize + new_cruiser_cell_3.slice(1..-1)
-      end
-
-        user_cruiser_cells = [user_cruiser_cell_1, user_cruiser_cell_2, user_cruiser_cell_3]
-
-      if @user_board.valid_placement_consecutive?(cruiser, user_cruiser_cells) == false
+      if @user_board.valid_placement_consecutive?(ship1, user_cruiser_cells) == false
         puts "Your coordinates were not consecutive. Please try again."
       end
-
     end
-    comp_place_coordinates(cruiser.length)
-    @user_board.place(cruiser, user_cruiser_cells)
+
+
+
+
+
+
+
+      # puts "Second coordinate:"
+      # new_cruiser_cell_2 = gets.chomp
+      # user_cruiser_cell_2 = new_cruiser_cell_2.slice(0,1).capitalize + new_cruiser_cell_2.slice(1..-1)
+      # while @user_board.valid_coordinate?(user_cruiser_cell_2) == false
+      #   puts "This is not a valid coordinate for your cruiser. Please input your second coordinate with a row letter between A and D and a column number between 1 and 4:"
+      #   new_cruiser_cell_2 = gets.chomp
+      #   user_cruiser_cell_2 = new_cruiser_cell_2.slice(0,1).capitalize + new_cruiser_cell_2.slice(1..-1)
+      # end
+      #
+      # puts "Third coordinate:"
+      # new_cruiser_cell_3 = gets.chomp
+      # user_cruiser_cell_3 = new_cruiser_cell_3.slice(0,1).capitalize + new_cruiser_cell_3.slice(1..-1)
+      # while @user_board.valid_coordinate?(user_cruiser_cell_3) == false
+      #   puts "This is not a valid coordinate for your cruiser. Please input your third coordinate with a row letter between A and D and a column number between 1 and 4:"
+      #   new_cruiser_cell_3 = gets.chomp
+      #   user_cruiser_cell_3 = new_cruiser_cell_3.slice(0,1).capitalize + new_cruiser_cell_3.slice(1..-1)
+      # end
+      #
+      #   user_cruiser_cells = [user_cruiser_cell_1, user_cruiser_cell_2, user_cruiser_cell_3]
+
+
+    #
+    # end
+    comp_place_coordinates(ship1.length)
+    @user_board.place(ship1, user_cruiser_cells)
+    require "pry"; binding.pry
   end
 
   def user_input_submarine_cells
