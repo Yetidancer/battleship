@@ -153,6 +153,9 @@ class Game
     end
     comp_place_coordinates(ship1.length)
     @user_board.place(ship1, user_cruiser_cells)
+    @user_board.render_first_row("your")
+    @user_board.renders(true)
+
     # require "pry"; binding.pry
   end
 
@@ -185,13 +188,13 @@ class Game
     while @user_board.valid_placement_consecutive?(ship, user_cruiser_cells) == false
       user_cruiser_cells = []
       until counter == (ship_size + 1)
-        puts "Enter the cells in which you would like to place your cruiser one at a time:"
+        puts "Enter the cells in which you would like to place the #{ship_name} one at a time:"
         puts "Coordinate #{counter}:"
         new_cruiser_cell_1 = gets.chomp
         user_cruiser_cell_1 = new_cruiser_cell_1.slice(0,1).capitalize + new_cruiser_cell_1.slice(1..-1)
 
         while @user_board.valid_coordinate?(user_cruiser_cell_1) == false
-          puts "This is not a valid coordinate for your cruiser. Please input your first coordinate with a row letter between A and D and a column number between 1 and 4:"
+          puts "This is not a valid coordinate for your cruiser. Please input a valid coordinate."
           new_cruiser_cell_1 = gets.chomp
           user_cruiser_cell_1 = new_cruiser_cell_1.slice(0,1).capitalize + new_cruiser_cell_1.slice(1..-1)
         end
@@ -313,6 +316,8 @@ class Game
     # end
     comp_place_coordinates(ship.length)
     @user_board.place(ship, user_cruiser_cells)
+    @user_board.render_first_row("your")
+    @user_board.renders(true)
     puts "Would you like to place another ship? Y or N?"
     user_input = gets.chomp.to_s.upcase
   end

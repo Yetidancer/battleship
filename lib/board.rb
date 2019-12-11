@@ -79,9 +79,14 @@ class Board
     width = width_num.map {|num| num.to_s}
     height = height_num.map {|num| (num += 64).chr}
     puts "This is #{player} board."
-    print "  "
+    puts "-" * (@size * 3) + "-"
+    print "   "
     width.each do |num|
-      print "#{num} "
+      if num.to_i > 8
+        print "#{num} "
+      else
+        print "#{num}  "
+      end
     end
     print "\n"
   end
@@ -96,14 +101,15 @@ class Board
     split_coordinate = @cells.keys.map {|coordinate| coordinate.split('',2)}
 
     height.each do |letter|
-      print letter + " "
+      print letter + "  "
       split_coordinate.each do |array|
         if letter == array[0]
-          print @cells[array[0] + array[1]].render(arg) + " "
+          print @cells[array[0] + array[1]].render(arg) + "  "
         end
       end
       print "\n"
     end
+    puts "-" * (@size * 3) + "-"
 
   end
 
