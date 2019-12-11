@@ -8,7 +8,6 @@ class BoardTest < Minitest::Test
 
   def setup
     @board = Board.new
-    # require "pry"; binding.pry
   end
 
   def test_board_exists
@@ -43,22 +42,11 @@ class BoardTest < Minitest::Test
   end
 
   def test_valid_placement_consecutive
-# #this one will be difficult
-# #my idea is to grab the proposed array
-# #split the cell coordinate into letter and number
-# #then change the letter into its associated ASCII number
-# #using this, you have to compare consecutive cells in the proposed valid_placement array and make sure that the letter is the same AND the number is one away OR the letter is one away from the next AND that the number is the same
-#
-# #ANOTHER OPTION
-#
-# #come up with the 24 associations, ie A1 and A2, B3 and C3, D3 and D4
-#   # require "pry"; binding.pry
   submarine = Ship.new("Submarine", 2)
   assert @board.valid_placement_consecutive?(submarine, ["A1","B1"])
+
   cruiser = Ship.new("Cruiser", 3)
   assert @board.valid_placement_consecutive?(cruiser, ["A1","A2","A3"])
-
-#   # require "pry"; binding.pry
   end
 
   def test_board_places_ship
@@ -71,7 +59,6 @@ class BoardTest < Minitest::Test
     assert_equal cruiser, cell_1.ship
     assert_equal cruiser, cell_2.ship
     assert_equal cruiser, cell_3.ship
-    # require "pry"; binding.pry
     assert cell_3.ship == cell_2.ship
   end
 
@@ -92,7 +79,6 @@ class BoardTest < Minitest::Test
     @board.cells["B2"].fire_upon
     @board.cells["C4"].fire_upon
     @board.place(cruiser, ["B4","C4","D4"])
-    # require "pry"; binding.pry
     assert_equal "  1 2 3 4 \n" +
 "A X X . . \n" +
 "B . M . . \n" +

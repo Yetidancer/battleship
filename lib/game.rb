@@ -6,7 +6,8 @@ require './lib/turn'
 
 class Game
 
-  attr_reader :user_board, :comp_board, :previous_shots, :user_cruiser, :user_sub #we have instance variables that I'm not sure are in use
+  attr_reader :user_board, :comp_board
+  #we have instance variables that I'm not sure are in use
 
   def initialize
     @comp_board = Board.new
@@ -29,18 +30,21 @@ class Game
 #/Users/ea/turing/1mod/projects/battleship/lib/turn.rb:12:in `take_shot': undefined method `fire_upon' for nil:NilClass (NoMethodError
 #)
     puts "Choose a coordinate upon which to fire."
-    fire = gets.chomp
+    pre_fire = gets.chomp
+    fire = pre_fire.slice(0,1).capitalize + pre_fire.slice(1..-1)
 
     unless @comp_board.cells.include?(fire)
       puts "Please input a valid coordinate."
-      fire = gets.chomp
+      pre_fire = gets.chomp
+      fire = pre_fire.slice(0,1).capitalize + pre_fire.slice(1..-1)
     end
 
     turn = Turn.new(fire, @comp_board)
 
     while @user_previous_shots.include?(fire)
       puts "That cell has already been shot. Please choose another."
-      fire = gets.chomp
+      pre_fire = gets.chomp
+      fire = pre_fire.slice(0,1).capitalize + pre_fire.slice(1..-1)
       turn = Turn.new(fire, @comp_board)
     end
   turn.take_shot
@@ -103,36 +107,41 @@ class Game
   end
 
   def user_input_cruiser_cells
-    # comp_place_coordinates
 
     cruiser = Ship.new("Cruiser", 3)
     user_cruiser_cell_1 = "C5"
     user_cruiser_cell_2 = "E9"
     user_cruiser_cell_3 = "Z3"
     user_cruiser_cells = [user_cruiser_cell_1, user_cruiser_cell_2, user_cruiser_cell_3]
-# require "pry"; binding.pry
+
     while @user_board.valid_placement_consecutive?(cruiser, user_cruiser_cells) == false
       puts "Enter the cells in which you would like to place your cruiser one at a time:"
       puts "First coordinate:"
-    user_cruiser_cell_1 = gets.chomp
-# require "pry"; binding.pry
+      new_cruiser_cell_1 = gets.chomp
+      user_cruiser_cell_1 = new_cruiser_cell_1.slice(0,1).capitalize + new_cruiser_cell_1.slice(1..-1)
+
       while @user_board.valid_coordinate?(user_cruiser_cell_1) == false
         puts "This is not a valid coordinate for your cruiser. Please input your first coordinate with a row letter between A and D and a column number between 1 and 4:"
-        user_cruiser_cell_1 = gets.chomp
+        new_cruiser_cell_1 = gets.chomp
+        user_cruiser_cell_1 = new_cruiser_cell_1.slice(0,1).capitalize + new_cruiser_cell_1.slice(1..-1)
       end
-      # require "pry"; binding.pry
+
       puts "Second coordinate:"
-      user_cruiser_cell_2 = gets.chomp
+      new_cruiser_cell_2 = gets.chomp
+      user_cruiser_cell_2 = new_cruiser_cell_2.slice(0,1).capitalize + new_cruiser_cell_2.slice(1..-1)
       while @user_board.valid_coordinate?(user_cruiser_cell_2) == false
         puts "This is not a valid coordinate for your cruiser. Please input your second coordinate with a row letter between A and D and a column number between 1 and 4:"
-        user_cruiser_cell_2 = gets.chomp
+        new_cruiser_cell_2 = gets.chomp
+        user_cruiser_cell_2 = new_cruiser_cell_2.slice(0,1).capitalize + new_cruiser_cell_2.slice(1..-1)
       end
 
       puts "Third coordinate:"
-      user_cruiser_cell_3 = gets.chomp
+      new_cruiser_cell_3 = gets.chomp
+      user_cruiser_cell_3 = new_cruiser_cell_3.slice(0,1).capitalize + new_cruiser_cell_3.slice(1..-1)
       while @user_board.valid_coordinate?(user_cruiser_cell_3) == false
         puts "This is not a valid coordinate for your cruiser. Please input your third coordinate with a row letter between A and D and a column number between 1 and 4:"
-        user_cruiser_cell_3 = gets.chomp
+        new_cruiser_cell_3 = gets.chomp
+        user_cruiser_cell_3 = new_cruiser_cell_3.slice(0,1).capitalize + new_cruiser_cell_3.slice(1..-1)
       end
 
         user_cruiser_cells = [user_cruiser_cell_1, user_cruiser_cell_2, user_cruiser_cell_3]
@@ -141,11 +150,9 @@ class Game
         puts "Your coordinates were not consecutive. Please try again."
       end
 
-    #require "pry"; binding.pry
     end
     comp_place_coordinates(cruiser.length)
     @user_board.place(cruiser, user_cruiser_cells)
-    # require "pry"; binding.pry
   end
 
   def user_input_submarine_cells
@@ -153,31 +160,33 @@ class Game
     user_submarine_cell_1 = "C5"
     user_submarine_cell_2 = "E9"
     user_submarine_cells = [user_submarine_cell_1, user_submarine_cell_2]
-# require "pry"; binding.pry
+
     while @user_board.valid_placement_consecutive?(submarine, user_submarine_cells) == false
       puts "Enter the cells in which you would like to place your sub one at a time:"
       puts "First coordinate:"
-    user_submarine_cell_1 = gets.chomp
-# require "pry"; binding.pry
+      new_submarine_cell_1 = gets.chomp
+      user_submarine_cell_1 = new_submarine_cell_1.slice(0,1).capitalize + new_submarine_cell_1.slice(1..-1)
+
       while @user_board.valid_coordinate?(user_submarine_cell_1) == false
         puts "This is not a valid coordinate for your submarine. Please input your first coordinate with a row letter between A and D and a column number between 1 and 4:"
-        user_submarine_cell_1 = gets.chomp
+        new_submarine_cell_1 = gets.chomp
+        user_submarine_cell_1 = new_submarine_cell_1.slice(0,1).capitalize + new_submarine_cell_1.slice(1..-1)
       end
-      # require "pry"; binding.pry
+
       puts "Second coordinate:"
-      user_submarine_cell_2 = gets.chomp
+      new_submarine_cell_2 = gets.chomp
+      user_submarine_cell_2 = new_submarine_cell_2.slice(0,1).capitalize + new_submarine_cell_2.slice(1..-1)
       while @user_board.valid_coordinate?(user_submarine_cell_2) == false
         puts "This is not a valid coordinate for your submarine. Please input your second coordinate with a row letter between A and D and a column number between 1 and 4:"
-        user_submarine_cell_2 = gets.chomp
+        new_submarine_cell_2 = gets.chomp
+        user_submarine_cell_2 = new_submarine_cell_2.slice(0,1).capitalize + new_submarine_cell_2.slice(1..-1)
       end
-      # require "pry"; binding.pry
+
       user_submarine_cells = [user_submarine_cell_1, user_submarine_cell_2]
-      # require "pry"; binding.pry
+
       if @user_board.valid_placement_consecutive?(submarine, user_submarine_cells) == false
         puts "Your coordinates were not consecutive. Please try again."
       end
-
-    #require "pry"; binding.pry
     end
 
     while @user_board.valid_placement_no_overlap?(submarine, user_submarine_cells) == false
@@ -189,22 +198,26 @@ class Game
       while @user_board.valid_placement_consecutive?(submarine, user_submarine_cells) == false
         puts "Enter the cells in which you would like to place your sub one at a time:"
         puts "First coordinate:"
-      user_submarine_cell_1 = gets.chomp
-  # require "pry"; binding.pry
+        new_submarine_cell_1 = gets.chomp
+        user_submarine_cell_1 = new_submarine_cell_1.slice(0,1).capitalize + new_submarine_cell_1.slice(1..-1)
+
         while @user_board.valid_coordinate?(user_submarine_cell_1) == false
           puts "This is not a valid coordinate for your submarine. Please input your first coordinate with a row letter between A and D and a column number between 1 and 4:"
-          user_submarine_cell_1 = gets.chomp
+          new_submarine_cell_1 = gets.chomp
+          user_submarine_cell_1 = new_submarine_cell_1.slice(0,1).capitalize + new_submarine_cell_1.slice(1..-1)
         end
-        # require "pry"; binding.pry
+
         puts "Second coordinate:"
-        user_submarine_cell_2 = gets.chomp
+        new_submarine_cell_2 = gets.chomp
+        user_submarine_cell_2 = new_submarine_cell_2.slice(0,1).capitalize + new_submarine_cell_2.slice(1..-1)
         while @user_board.valid_coordinate?(user_submarine_cell_2) == false
           puts "This is not a valid coordinate for your submarine. Please input your second coordinate with a row letter between A and D and a column number between 1 and 4:"
-          user_submarine_cell_2 = gets.chomp
+          new_submarine_cell_2 = gets.chomp
+          user_submarine_cell_2 = new_submarine_cell_2.slice(0,1).capitalize + new_submarine_cell_2.slice(1..-1)
         end
 
         user_submarine_cells = [user_submarine_cell_1, user_submarine_cell_2]
-      #require "pry"; binding.pry
+
         if @user_board.valid_placement_consecutive?(submarine, user_submarine_cells) == false
           puts "Your coordinates were not consecutive. Please try again."
         end
@@ -212,26 +225,10 @@ class Game
     end
     comp_place_coordinates(submarine.length)
     @user_board.place(submarine, user_submarine_cells)
-    # require "pry"; binding.pry
   end
 
   def comp_place_coordinates(length)
     ship = Ship.new("Ship", length)
-    # require "pry"; binding.pry
-    # cruiser_placement = comp_coordinates_cruiser
-    # cruiser = Ship.new("Cruiser", 3)
-    # @comp_board.place(cruiser, cruiser_placement)
-    # submarine_placement = comp_coordinates_submarine
-    # submarine = Ship.new("Submarine", 2)
-    # # require "pry"; binding.pry
-    #
-    # while @comp_board.valid_placement_no_overlap?(submarine, submarine_placement) == false
-    #   # require "pry"; binding.pry
-    #   submarine_placement = comp_coordinates_submarine
-    # end
-    # @comp_board.place(submarine, submarine_placement)
-    # # require "pry"; binding.pry
-    # require "pry"; binding.pry
 
     comp_ship_placement = comp_random_coordinates(length)
 
@@ -241,21 +238,6 @@ class Game
     @comp_board.place(ship, comp_random_coordinates(length))
   end
 
-  # def comp_coordinates_cruiser
-  #   comp_coordinates_cruiser = []
-  #   comp_coordinates_cruiser << hor_random_3
-  #   comp_coordinates_cruiser << vert_random_3
-  #   comp_coordinates_cruiser.shuffle.first
-  #   # require "pry"; binding.pry
-  # end
-  #
-  # def comp_coordinates_submarine
-  #   comp_coordinates_submarine = []
-  #   comp_coordinates_submarine << vert_random_2
-  #   comp_coordinates_submarine << hor_random_2
-  #   comp_coordinates_submarine.shuffle.first
-  # end
-
   def comp_random_coordinates(length)
     comp_coordinates = nil
 
@@ -263,8 +245,6 @@ class Game
     height_num = width_num.map(&:clone)
     width = width_num.map {|num| num.to_s}
     height = height_num.map {|num| (num += 64).chr}
-
-    # split_coordinate = @cells.keys.map {|coordinate| coordinate.split''}
 
     comp_coordinates_width_array = []
     comp_coordinates_height_array = []
@@ -293,88 +273,5 @@ class Game
 
     comp_coordinates
   end
-
-  # def vert_random_3
-  #   coordinates = []
-  #   board_co = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4"]
-  #   coord = board_co.shuffle.first
-  #   rando = [coord]
-  #   coordinates << coord
-  #
-  #   cell_1 = rando[0].split''
-  #   letter_1 = cell_1[0].ord
-  #   number_1 = cell_1[1].to_i
-  #   letter_2 = letter_1 + 1
-  #   number_2 = number_1
-  #   coord_1 = letter_2.chr + number_2.to_s
-  #   coordinates << coord_1
-  #
-  #   letter_3 = letter_2 + 1
-  #   number_3 = number_2
-  #   coord_2 = letter_3.chr + number_3.to_s
-  #   coordinates << coord_2
-  #
-  #   return coordinates
-  # end
-  #
-  # def hor_random_3
-  #   coordinates = []
-  #   board_co = ["A1", "A2", "B1", "B2", "C1", "C2", "D1", "D2"]
-  #   coord = board_co.shuffle.first
-  #   rando = [coord]
-  #   coordinates << coord
-  #
-  #   cell_1 = rando[0].split''
-  #   letter_1 = cell_1[0].ord
-  #   number_1 = cell_1[1].to_i
-  #   letter_2 = letter_1
-  #   number_2 = number_1 + 1
-  #   coord_1 = letter_2.chr + number_2.to_s
-  #   coordinates << coord_1
-  #
-  #   letter_3 = letter_2
-  #   number_3 = number_2 + 1
-  #   coord_2 = letter_3.chr + number_3.to_s
-  #   coordinates << coord_2
-  #
-  #   return coordinates
-  # end
-  #
-  # def vert_random_2
-  #   coordinates = []
-  #   board_co = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4"]
-  #   coord = board_co.shuffle.first
-  #   rando = [coord]
-  #   coordinates << coord
-  #
-  #   cell_1 = rando[0].split''
-  #   letter_1 = cell_1[0].ord
-  #   number_1 = cell_1[1].to_i
-  #   letter_2 = letter_1 + 1
-  #   number_2 = number_1
-  #   coord_1 = letter_2.chr + number_2.to_s
-  #   coordinates << coord_1
-  #
-  #   return coordinates
-  # end
-  #
-  # def hor_random_2
-  #   coordinates = []
-  #   board_co = ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3"]
-  #   coord = board_co.shuffle.first
-  #   rando = [coord]
-  #   coordinates << coord
-  #
-  #   cell_1 = rando[0].split''
-  #   letter_1 = cell_1[0].ord
-  #   number_1 = cell_1[1].to_i
-  #   letter_2 = letter_1
-  #   number_2 = number_1 + 1
-  #   coord_1 = letter_2.chr + number_2.to_s
-  #   coordinates << coord_1
-  #
-  #   return coordinates
-  # end
-
 
 end

@@ -7,16 +7,15 @@ class Board
   def initialize
     @cells = {}
     @size = nil
-     # require "pry"; binding.pry
   end
 
   def set_board_size
-    puts "What size would you like the board to be? Enter an integer between 1 and 26:"
+    puts "What size would you like the board to be? Enter an integer between 4 and 26:"
 
     @size = gets.chomp.to_i
 
-    if @size > 26 || @size < 1
-      puts "That is not a valid size, please enter an integer between 1 and 26:"
+    until @size < 27 && @size > 3 && @size.is_a?(Integer)
+      puts "That is not a valid size, please enter an integer between 4 and 26:"
       @size = gets.chomp.to_i
     end
 
@@ -32,6 +31,7 @@ class Board
     list.flatten.each do |coordinate|
       @cells[coordinate] = Cell.new(coordinate)
     end
+
   end
 
   def place(ship, coordinates)
@@ -54,12 +54,11 @@ class Board
 
   def valid_placement_length?(ship, array)
     return true if ship.length == array.length
-    # require "pry"; binding.pry
   end
 
   def valid_placement_consecutive?(ship, array)
     split_coordinate = array.map do |coordinate|
-      coordinate.split""
+      coordinate.split("",2)
     end
 
     coord_numbers = split_coordinate.map {|array| array[1].to_i}
@@ -71,7 +70,6 @@ class Board
     letter_check_equal = nil == coord_letters.find {|letter| coord_letters[0] != letter}
 
     (num_check_consecutive == true && letter_check_equal == true) || (num_check_equal == true && letter_check_consecutive == true)
-    # require "pry"; binding.pry
   end
 
   def render_first_row(player)
@@ -100,9 +98,7 @@ class Board
       print letter + " "
       split_coordinate.each do |array|
         if letter == array[0]
-          # require "pry"; binding.pry
           print @cells[array[0] + array[1]].render(arg) + " "
-          # require "pry"; binding.pry
         end
       end
       print "\n"
