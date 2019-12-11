@@ -19,16 +19,6 @@ class Game
   end
 
   def user_take_turn
-    #Error message to check on
-    #Choose a coordinate upon which to fire.
-#F3
-#Please input a valid coordinate.
-#G5
-#Traceback (most recent call last):
-#        2: from battleship_runner.rb:17:in `<main>'
-#        1: from /Users/ea/turing/1mod/projects/battleship/lib/game.rb:36:in `user_take_turn'
-#/Users/ea/turing/1mod/projects/battleship/lib/turn.rb:12:in `take_shot': undefined method `fire_upon' for nil:NilClass (NoMethodError
-#)
     puts "Choose a coordinate upon which to fire."
     pre_fire = gets.chomp
     fire = pre_fire.slice(0,1).capitalize + pre_fire.slice(1..-1)
@@ -49,6 +39,14 @@ class Game
     end
   turn.take_shot
   @user_previous_shots << turn.shot
+
+    if @comp_board.cells[turn.shot].render(true) == "H"
+      puts "Your shot on #{turn.shot} was a hit."
+    elsif @comp_board.cells[turn.shot].render(true) == "X"
+      puts "Your shot on #{turn.shot} sunk one of the computer's ships!"
+    else
+      puts "Your shot on #{turn.shot} was a miss."
+    end
   end
 
   def cpu_take_turn
@@ -67,6 +65,15 @@ class Game
     end
   turn.take_shot
   @cpu_previous_shots << turn.shot
+
+  if @user_board.cells[turn.shot].render(true) == "H"
+    puts "The CPU shot on #{turn.shot} was a hit."
+  elsif @user_board.cells[turn.shot].render(true) == "X"
+    puts "The CPU's shot on #{turn.shot} sunk one of your ships!"
+  else
+    puts "The CPU's shot on #{turn.shot} was a miss."
+  end
+
   end
 
   def start_game
