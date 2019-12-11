@@ -264,68 +264,7 @@ class Game
         end
       end
     end
-    # while @user_board.valid_placement_consecutive?(submarine, user_submarine_cells) == false
-    #   puts "Enter the cells in which you would like to place your sub one at a time:"
-    #   puts "First coordinate:"
-    #   new_submarine_cell_1 = gets.chomp
-    #   user_submarine_cell_1 = new_submarine_cell_1.slice(0,1).capitalize + new_submarine_cell_1.slice(1..-1)
-    #
-    #   while @user_board.valid_coordinate?(user_submarine_cell_1) == false
-    #     puts "This is not a valid coordinate for your submarine. Please input your first coordinate with a row letter between A and D and a column number between 1 and 4:"
-    #     new_submarine_cell_1 = gets.chomp
-    #     user_submarine_cell_1 = new_submarine_cell_1.slice(0,1).capitalize + new_submarine_cell_1.slice(1..-1)
-    #   end
-    #
-    #   puts "Second coordinate:"
-    #   new_submarine_cell_2 = gets.chomp
-    #   user_submarine_cell_2 = new_submarine_cell_2.slice(0,1).capitalize + new_submarine_cell_2.slice(1..-1)
-    #   while @user_board.valid_coordinate?(user_submarine_cell_2) == false
-    #     puts "This is not a valid coordinate for your submarine. Please input your second coordinate with a row letter between A and D and a column number between 1 and 4:"
-    #     new_submarine_cell_2 = gets.chomp
-    #     user_submarine_cell_2 = new_submarine_cell_2.slice(0,1).capitalize + new_submarine_cell_2.slice(1..-1)
-    #   end
-    #
-    #   user_submarine_cells = [user_submarine_cell_1, user_submarine_cell_2]
-    #
-    #   if @user_board.valid_placement_consecutive?(submarine, user_submarine_cells) == false
-    #     puts "Your coordinates were not consecutive. Please try again."
-    #   end
-    # end
 
-    # while @user_board.valid_placement_no_overlap?(submarine, user_submarine_cells) == false
-    #   submarine = Ship.new("Submarine", 2)
-    #   user_submarine_cell_1 = "C5"
-    #   user_submarine_cell_2 = "E9"
-    #   user_submarine_cells = [user_submarine_cell_1, user_submarine_cell_2]
-    #   puts "You have overlapping ships. Try again!"
-    #   while @user_board.valid_placement_consecutive?(submarine, user_submarine_cells) == false
-    #     puts "Enter the cells in which you would like to place your sub one at a time:"
-    #     puts "First coordinate:"
-    #     new_submarine_cell_1 = gets.chomp
-    #     user_submarine_cell_1 = new_submarine_cell_1.slice(0,1).capitalize + new_submarine_cell_1.slice(1..-1)
-    #
-    #     while @user_board.valid_coordinate?(user_submarine_cell_1) == false
-    #       puts "This is not a valid coordinate for your submarine. Please input your first coordinate with a row letter between A and D and a column number between 1 and 4:"
-    #       new_submarine_cell_1 = gets.chomp
-    #       user_submarine_cell_1 = new_submarine_cell_1.slice(0,1).capitalize + new_submarine_cell_1.slice(1..-1)
-    #     end
-    #
-    #     puts "Second coordinate:"
-    #     new_submarine_cell_2 = gets.chomp
-    #     user_submarine_cell_2 = new_submarine_cell_2.slice(0,1).capitalize + new_submarine_cell_2.slice(1..-1)
-    #     while @user_board.valid_coordinate?(user_submarine_cell_2) == false
-    #       puts "This is not a valid coordinate for your submarine. Please input your second coordinate with a row letter between A and D and a column number between 1 and 4:"
-    #       new_submarine_cell_2 = gets.chomp
-    #       user_submarine_cell_2 = new_submarine_cell_2.slice(0,1).capitalize + new_submarine_cell_2.slice(1..-1)
-    #     end
-    #
-    #     user_submarine_cells = [user_submarine_cell_1, user_submarine_cell_2]
-    #
-    #     if @user_board.valid_placement_consecutive?(submarine, user_submarine_cells) == false
-    #       puts "Your coordinates were not consecutive. Please try again."
-    #     end
-    #   end
-    # end
     comp_place_coordinates(ship.length)
     @user_board.place(ship, user_cruiser_cells)
     @user_board.render_first_row("your")
@@ -360,14 +299,10 @@ class Game
     height_num.each_cons(length) {|arr| comp_coordinates_height_array << arr}
 
     comp_coordinates_width = comp_coordinates_width_array.sample
-    #random array of horizontal coordinates
     comp_coordinates_height = comp_coordinates_height_array.sample
-    #random array of vertical coordinates
 
     comp_coordinate_horiz = width.sample
-    #one element of number strings array
     comp_coordinate_vert = height.sample
-    #one element of letter strings array
 
     comp_coordinates_horiz_choice = comp_coordinates_width.map do |num|
       comp_coordinate_vert + num.to_s

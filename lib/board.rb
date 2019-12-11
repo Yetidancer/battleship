@@ -5,11 +5,15 @@ class Board
   attr_reader :cells
   attr_accessor :size
   def initialize
-    @cells = {}
-    @size = nil
+    @cells = {
+      "A1" => cell_1 
+    }
+    @size = 4
   end
 
   def set_board_size
+    @cells = {}
+
     puts "What size would you like the board to be? Enter an integer between 4 and 26:"
 
     @size = gets.chomp.to_i
@@ -63,7 +67,6 @@ class Board
     end
 
     coord_numbers = split_coordinate.map {|array| array[1].to_i}
-    # require "pry"; binding.pry
     num_check_consecutive = coord_numbers == (coord_numbers.min..coord_numbers.max).to_a && coord_numbers.length == array.length
     num_check_equal = nil == coord_numbers.find {|number| coord_numbers[0] != number}
 
@@ -79,21 +82,22 @@ class Board
     height_num = width_num.map(&:clone)
     width = width_num.map {|num| num.to_s}
     height = height_num.map {|num| (num += 64).chr}
-    puts "This is #{player} board."
-    puts "-" * (@size * 3) + "-"
-    print "   "
+
+    rendering_string << "This is #{player} board."
+    rendering_string << "-" * (@size * 3) + "-"
+    rendering_string << "   "
     width.each do |num|
       if num.to_i > 8
-        print "#{num} "
+        rendering_string << "#{num} "
       else
-        print "#{num}  "
+        rendering_string << "#{num}  "
       end
     end
-    print "\n"
+    rendering_string << "\n"
+    rendering_string
   end
 
   def renders(arg = false)
-
     width_num = (1..@size).to_a
     height_num = width_num.map(&:clone)
     width = width_num.map {|num| num.to_s}
@@ -101,17 +105,20 @@ class Board
 
     split_coordinate = @cells.keys.map {|coordinate| coordinate.split('',2)}
 
+
+    rendering_string = ""
+
     height.each do |letter|
-      print letter + "  "
+      rendering_string << letter + "  "
       split_coordinate.each do |array|
         if letter == array[0]
-          print @cells[array[0] + array[1]].render(arg) + "  "
+          rendering_string << (@cells[array[0] + array[1]].render(arg) + "  ")
         end
       end
-      print "\n"
+      rendering_string << "\n"
     end
-    puts "-" * (@size * 3) + "-"
-
+    rendering_string << "-" * (@size * 3) + "-"
+    rendering_string
   end
 
 end
