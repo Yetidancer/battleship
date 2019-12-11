@@ -6,8 +6,8 @@ play = Play.new
 play.game.start_game
 play.game.user_board.set_board_size
 play.game.set_comp_board_size
-play.game.user_input_cruiser_cells
-play.game.user_input_submarine_cells
+play.game.user_input_first_ship
+play.game.user_input_other_ships
 play.user_game_status?
 play.cpu_game_status?
 while play.user_game_status.include?("S") && play.cpu_game_status.include?("S")
