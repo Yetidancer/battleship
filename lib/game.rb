@@ -19,16 +19,6 @@ class Game
   end
 
   def user_take_turn
-    #Error message to check on
-    #Choose a coordinate upon which to fire.
-#F3
-#Please input a valid coordinate.
-#G5
-#Traceback (most recent call last):
-#        2: from battleship_runner.rb:17:in `<main>'
-#        1: from /Users/ea/turing/1mod/projects/battleship/lib/game.rb:36:in `user_take_turn'
-#/Users/ea/turing/1mod/projects/battleship/lib/turn.rb:12:in `take_shot': undefined method `fire_upon' for nil:NilClass (NoMethodError
-#)
     puts "Choose a coordinate upon which to fire."
     pre_fire = gets.chomp
     fire = pre_fire.slice(0,1).capitalize + pre_fire.slice(1..-1)
@@ -49,6 +39,14 @@ class Game
     end
   turn.take_shot
   @user_previous_shots << turn.shot
+
+    if @comp_board.cells[turn.shot].render(true) == "H"
+      puts "Your shot on #{turn.shot} was a hit."
+    elsif @comp_board.cells[turn.shot].render(true) == "X"
+      puts "Your shot on #{turn.shot} sunk one of the computer's ships!"
+    else
+      puts "Your shot on #{turn.shot} was a miss."
+    end
   end
 
   def cpu_take_turn
@@ -67,6 +65,15 @@ class Game
     end
   turn.take_shot
   @cpu_previous_shots << turn.shot
+
+  if @user_board.cells[turn.shot].render(true) == "H"
+    puts "The CPU shot on #{turn.shot} was a hit."
+  elsif @user_board.cells[turn.shot].render(true) == "X"
+    puts "The CPU's shot on #{turn.shot} sunk one of your ships!"
+  else
+    puts "The CPU's shot on #{turn.shot} was a miss."
+  end
+
   end
 
   def start_game
@@ -133,7 +140,9 @@ class Game
 
     while @user_board.valid_placement_consecutive?(ship1, user_cruiser_cells) == false
       user_cruiser_cells = []
+      counter = 1
       until counter == (ship_size + 1)
+        # require "pry"; binding.pry
         puts "Enter the cells in which you would like to place the #{ship_name} one at a time:"
         puts "Coordinate #{counter}:"
         new_cruiser_cell_1 = gets.chomp
@@ -147,12 +156,16 @@ class Game
         counter += 1
         user_cruiser_cells << user_cruiser_cell_1
       end
+      # require "pry"; binding.pry
       if @user_board.valid_placement_consecutive?(ship1, user_cruiser_cells) == false
-        puts "Your coordinates were not consecutive. Please try again."
+        puts "YOUR COORDINATES ARE NOT CONSECUTIVE. Please try again."
       end
     end
     comp_place_coordinates(ship1.length)
     @user_board.place(ship1, user_cruiser_cells)
+    @user_board.render_first_row("your")
+    @user_board.renders(true)
+
     # require "pry"; binding.pry
   end
 
@@ -184,14 +197,15 @@ class Game
 
     while @user_board.valid_placement_consecutive?(ship, user_cruiser_cells) == false
       user_cruiser_cells = []
+      counter = 1
       until counter == (ship_size + 1)
-        puts "Enter the cells in which you would like to place your cruiser one at a time:"
+        puts "Enter the cells in which you would like to place the #{ship_name} one at a time:"
         puts "Coordinate #{counter}:"
         new_cruiser_cell_1 = gets.chomp
         user_cruiser_cell_1 = new_cruiser_cell_1.slice(0,1).capitalize + new_cruiser_cell_1.slice(1..-1)
 
         while @user_board.valid_coordinate?(user_cruiser_cell_1) == false
-          puts "This is not a valid coordinate for your cruiser. Please input your first coordinate with a row letter between A and D and a column number between 1 and 4:"
+          puts "This is not a valid coordinate for your cruiser. Please input a valid coordinate."
           new_cruiser_cell_1 = gets.chomp
           user_cruiser_cell_1 = new_cruiser_cell_1.slice(0,1).capitalize + new_cruiser_cell_1.slice(1..-1)
         end
@@ -199,7 +213,7 @@ class Game
         user_cruiser_cells << user_cruiser_cell_1
       end
       if @user_board.valid_placement_consecutive?(ship, user_cruiser_cells) == false
-        puts "Your coordinates were not consecutive. Please try again."
+        puts "YOUR COORDINATES ARE NOT CONSECUTIVE. Please try again."
       end
     end
 
@@ -230,6 +244,7 @@ class Game
 
       while @user_board.valid_placement_consecutive?(ship, user_cruiser_cells) == false
         user_cruiser_cells = []
+        counter = 1
         until counter == (ship_size + 1)
           puts "Enter the cells in which you would like to place the #{ship_name} one at a time:"
           puts "Coordinate #{counter}:"
@@ -245,7 +260,7 @@ class Game
           user_cruiser_cells << user_cruiser_cell_1
         end
         if @user_board.valid_placement_consecutive?(ship, user_cruiser_cells) == false
-          puts "Your coordinates were not consecutive. Please try again."
+          puts "YOUR COORDINATES ARE NOT CONSECUTIVE. Please try again."
         end
       end
     end
@@ -313,6 +328,8 @@ class Game
     # end
     comp_place_coordinates(ship.length)
     @user_board.place(ship, user_cruiser_cells)
+    @user_board.render_first_row("your")
+    @user_board.renders(true)
     puts "Would you like to place another ship? Y or N?"
     user_input = gets.chomp.to_s.upcase
   end
