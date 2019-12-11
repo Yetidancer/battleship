@@ -24,7 +24,6 @@ class TurnTest < MiniTest::Test
   end
 
   def test_shot_is_recorded
-    @board_1.set_board_size
     @turn_1.take_shot
     assert @board_1.cells["A1"].fired_upon?
   end

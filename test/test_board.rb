@@ -8,31 +8,25 @@ class BoardTest < Minitest::Test
 
   def setup
     @board = Board.new
-    # @board.set_board_size
   end
 
   def test_board_exists
-    # skip
     assert_instance_of Board, @board
   end
 
   def test_board_is_hash
-    # skip
     assert @board.cells.is_a?(Hash)
   end
 
   def test_board_has_16_cells
-    # skip
     assert_equal 16, @board.cells.length
   end
 
   def test_board_hash_keys_to_cells
-    # skip
     assert_instance_of Cell, @board.cells["A1"]
   end
 
   def test_valid_coordinate?
-    # skip
     assert @board.valid_coordinate?("A1")
     assert @board.valid_coordinate?("D4")
     refute @board.valid_coordinate?("E1")
@@ -40,7 +34,6 @@ class BoardTest < Minitest::Test
   end
 
   def test_valid_placement_length
-    # skip
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
 
@@ -49,7 +42,6 @@ class BoardTest < Minitest::Test
   end
 
   def test_valid_placement_consecutive
-    # skip
   submarine = Ship.new("Submarine", 2)
   assert @board.valid_placement_consecutive?(submarine, ["A1","B1"])
 
@@ -58,7 +50,6 @@ class BoardTest < Minitest::Test
   end
 
   def test_board_places_ship
-    # skip
     cruiser = Ship.new("Cruiser", 3)
     @board.place(cruiser, ["A1", "A2", "A3"])
     cell_1 = @board.cells["A1"]
@@ -72,7 +63,6 @@ class BoardTest < Minitest::Test
   end
 
   def test_board_no_overlap
-    # skip
     cruiser = Ship.new("Cruiser", 3)
     @board.place(cruiser, ["A1", "A2", "A3"])
     submarine = Ship.new("Submarine", 2)
@@ -81,7 +71,6 @@ class BoardTest < Minitest::Test
   end
 
   def test_renders
-    # skip
     submarine = Ship.new("Submarine", 2)
     cruiser = Ship.new("Cruiser", 3)
     @board.place(submarine, ["A1","A2"])
@@ -90,14 +79,8 @@ class BoardTest < Minitest::Test
     @board.cells["B2"].fire_upon
     @board.cells["C4"].fire_upon
     @board.place(cruiser, ["B4","C4","D4"])
-    require "pry"; binding.pry
-    assert_equal puts ("A X X . . \n" +
-"B . M . . \n" +
-"C . . . H \n" +
-"D . . . . \n"), @board.renders("cpu")
-    assert_equal puts ("A X X . . \n" +
-"B . M . S \n" +
-"C . . . H \n" +
-"D . . . S \n"), @board.renders("player", true)
+    assert_equal ("A  X  X  .  .  \n" + "B  .  M  .  .  \n" + "C  .  .  .  H  \n" + "D  .  .  .  .  \n" + "-------------"), @board.renders
+    ("A  X  X  .  .  \n" + "B  .  M  .  S  \n" + "C  .  .  .  H  \n" + "D  .  .  .  S  \n" + "-------------")
+    assert_equal ("A  X  X  .  .  \n" + "B  .  M  .  S  \n" + "C  .  .  .  H  \n" + "D  .  .  .  S  \n" + "-------------"), @board.renders(true)
   end
 end
