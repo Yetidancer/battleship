@@ -27,13 +27,13 @@ puts play.game.user_board.render_first_row("your")
 puts play.game.user_board.renders(true)
 
 if play.cpu_game_status.include?("S")
-  puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-  puts "~~~~~~GAME OVER! YOU LOSE!~~~~~~"
-  puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+  puts "\n\n     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+  puts "     ~~~~~~GAME OVER! YOU LOSE!~~~~~~"
+  puts "     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n"
 end
 
 if play.user_game_status.include?("S")
-  puts "*******************************"
-  puts "******GAME OVER! YOU WIN!******"
-  puts "*******************************"
+  puts "\n\n     *******************************"
+  puts "     ******GAME OVER! YOU WIN!******"
+  puts "     *******************************\n\n\n"
 end
