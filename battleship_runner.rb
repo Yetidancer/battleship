@@ -1,8 +1,8 @@
 require './lib/game'
 require './lib/play'
 
-response = "Y"
-while response == "Y"
+user_response = "Y"
+while user_response == "Y"
   play = Play.new
 
   play.game.start_game
@@ -41,5 +41,5 @@ while response == "Y"
   end
 
   puts "Do you want to play again? Y or N"
-  response = gets.chomp.upcase
+  user_response = gets.chomp.upcase
 end
