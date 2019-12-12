@@ -79,8 +79,12 @@ class BoardTest < Minitest::Test
     @board.cells["B2"].fire_upon
     @board.cells["C4"].fire_upon
     @board.place(cruiser, ["B4","C4","D4"])
-    assert_equal ("A  X  X  .  .  \n" + "B  .  M  .  .  \n" + "C  .  .  .  H  \n" + "D  .  .  .  .  \n" + "-------------"), @board.renders
-    ("A  X  X  .  .  \n" + "B  .  M  .  S  \n" + "C  .  .  .  H  \n" + "D  .  .  .  S  \n" + "-------------")
-    assert_equal ("A  X  X  .  .  \n" + "B  .  M  .  S  \n" + "C  .  .  .  H  \n" + "D  .  .  .  S  \n" + "-------------"), @board.renders(true)
+    assert_equal ("A  X  X  .  .  \n" + "B  .  M  .  .  \n" + "C  .  .  .  H  \n" + "D  .  .  .  .  \n" + "~~~~~~~~~~~~~"), @board.renders
+
+    assert_equal ("A  X  X  .  .  \n" + "B  .  M  .  S  \n" + "C  .  .  .  H  \n" + "D  .  .  .  S  \n" + "~~~~~~~~~~~~~"), @board.renders(true)
+
+    assert_equal "\n\nThis is the CPU board.\n~~~~~~~~~~~~~\n   1  2  3  4  \n", @board.render_first_row("the CPU")
+
+    assert_equal "\n\nThis is your board.\n~~~~~~~~~~~~~\n   1  2  3  4  \n", @board.render_first_row("your")
   end
 end

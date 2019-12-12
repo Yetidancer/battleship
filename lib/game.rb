@@ -108,8 +108,8 @@ class Game
     end
     # require "pry"; binding.pry
 
-    @user_board.render_first_row("your")
-    @user_board.renders
+    puts @user_board.render_first_row("your")
+    puts @user_board.renders
     puts "Please place your ships on the board above:"
   end
 

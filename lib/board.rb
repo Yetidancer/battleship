@@ -97,9 +97,10 @@ class Board
     height_num = width_num.map(&:clone)
     width = width_num.map {|num| num.to_s}
     height = height_num.map {|num| (num += 64).chr}
+    rendering_string =''
 
-    rendering_string << "This is #{player} board."
-    rendering_string << "-" * (@size * 3) + "-"
+    rendering_string << "\n\nThis is #{player} board.\n"
+    rendering_string << "~" * (@size * 3) + "~" + "\n"
     rendering_string << "   "
     width.each do |num|
       if num.to_i > 8
@@ -109,6 +110,7 @@ class Board
       end
     end
     rendering_string << "\n"
+    # require "pry"; binding.pry
     rendering_string
   end
 
@@ -132,7 +134,7 @@ class Board
       end
       rendering_string << "\n"
     end
-    rendering_string << "-" * (@size * 3) + "-"
+    rendering_string << "~" * (@size * 3) + "~"
     rendering_string
   end
 
