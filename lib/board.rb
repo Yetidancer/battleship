@@ -29,12 +29,12 @@ class Board
   def set_board_size
     @cells = {}
 
-    puts "What size would you like the board to be? Enter an integer between 4 and 26:"
+    puts "\nWhat size would you like the board to be? Enter an integer between 4 and 26:"
 
     @size = gets.chomp.to_i
 
     until @size < 27 && @size > 3 && @size.is_a?(Integer)
-      puts "That is not a valid size, please enter an integer between 4 and 26:"
+      puts "\nThat is not a valid size, please enter an integer between 4 and 26:"
       @size = gets.chomp.to_i
     end
 
