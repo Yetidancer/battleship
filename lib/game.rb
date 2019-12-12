@@ -23,7 +23,7 @@ class Game
     pre_fire = gets.chomp
     fire = pre_fire.slice(0,1).capitalize + pre_fire.slice(1..-1)
 
-    unless @comp_board.cells.include?(fire)
+    until @comp_board.cells.include?(fire)
       puts "Please input a valid coordinate."
       pre_fire = gets.chomp
       fire = pre_fire.slice(0,1).capitalize + pre_fire.slice(1..-1)
@@ -37,23 +37,25 @@ class Game
       fire = pre_fire.slice(0,1).capitalize + pre_fire.slice(1..-1)
       turn = Turn.new(fire, @comp_board)
     end
-  turn.take_shot
-  @user_previous_shots << turn.shot
+    turn.take_shot
+    @user_previous_shots << turn.shot
 
     if @comp_board.cells[turn.shot].render(true) == "H"
-      puts "Your shot on #{turn.shot} was a hit."
+      puts "\n        shot       result"
+      puts "You      #{turn.shot}         HIT"
     elsif @comp_board.cells[turn.shot].render(true) == "X"
-      puts "Your shot on #{turn.shot} sunk one of the computer's ships!"
+      puts "\n        shot       result"
+      puts "You      #{turn.shot}         SUNK"
     else
-      puts "Your shot on #{turn.shot} was a miss."
+      puts "\n        shot       result"
+      puts "You      #{turn.shot}         MISS"
     end
   end
 
   def cpu_take_turn
     fire = @user_board.cells.keys.shuffle.first
 
-    unless @user_board.cells.include?(fire)
-      puts "Please input a valid coordinate:"
+    until @user_board.cells.include?(fire)
       fire = @user_board.cells.keys.shuffle.first
     end
 
@@ -67,11 +69,11 @@ class Game
   @cpu_previous_shots << turn.shot
 
   if @user_board.cells[turn.shot].render(true) == "H"
-    puts "The CPU shot on #{turn.shot} was a hit."
+    puts "CPU      #{turn.shot}         HIT"
   elsif @user_board.cells[turn.shot].render(true) == "X"
-    puts "The CPU's shot on #{turn.shot} sunk one of your ships!"
+    puts "CPU      #{turn.shot}         SUNK"
   else
-    puts "The CPU's shot on #{turn.shot} was a miss."
+    puts "CPU      #{turn.shot}         MISS"
   end
 
   end
@@ -80,7 +82,7 @@ class Game
 
     puts "Welcome to BATTLESHIP"
     puts "Enter p to play. Enter q to quit."
-    user_choice = gets.chomp
+    user_choice = gets.chomp.to_s.downcase
     if user_choice == "q"
       puts "You chose quit. Have a nice day!"
     elsif user_choice == "p"
